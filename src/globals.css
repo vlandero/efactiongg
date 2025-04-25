@@ -1,26 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&family=Bebas+Neue&family=Saira+Stencil+One&family=Inter:wght@400;500&family=Rubik:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Rubik', sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+button {
+  font-family: 'Rubik', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.bg-primary {
+  background-color: #1C1C24;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.text-light {
+  color: #EDEDED;
+}
+
+.text-medium {
+  color: #706f6f;
+}
+
+.turq-gradient {
+  background: #136a8a;
+  background: -webkit-linear-gradient(to right, #267871, #136a8a);
+  background: linear-gradient(to right, #267871, #136a8a);
+}
+
+.crimson-gradient {
+  background: #2b0000;
+  background: -webkit-linear-gradient(to right, #800000, #2b0000);
+  background: linear-gradient(to right, #800000, #2b0000);
+}
+
+.dark-inferno {
+  background: #1a0000;
+  background: -webkit-linear-gradient(to right, #e60000, #990000);
+  background: linear-gradient(to right, #e60000, #990000);
+}
+
+.dark-gradient {
+  background: #1C1C24;
+  background: -webkit-linear-gradient(to right, #1C1C24, #33323d);
+  background: linear-gradient(to right, #1C1C24, #0b1c1d);
+}
+
+.bg-secondary {
+  background-color: #17635c;
+}
+
+.bg-red-500 {
+  background-color: #FF3B3B;
 }

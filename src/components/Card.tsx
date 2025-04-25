@@ -7,7 +7,7 @@ type CardProps = {
   link: string;
 };
 
-const Card: React.FC<CardProps> = ({ title, description, imageUrl, link }) => {
+export const Card: React.FC<CardProps> = ({ title, description, imageUrl, link }) => {
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white hover:bg-gray-100 transition-all duration-300">
       <img className="w-full h-48 object-cover" src={imageUrl} alt={title} />
@@ -26,5 +26,3 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl, link }) => {
     </div>
   );
 };
-
-export default Card;
