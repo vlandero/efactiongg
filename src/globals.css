@@ -1,31 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&family=Bebas+Neue&family=Saira+Stencil+One&family=Inter:wght@400;500&family=Rubik:wght@400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&family=Bebas+Neue&family=Saira+Stencil+One&family=Inter:wght@400;500&family=Rubik:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 @import "tailwindcss";
 
 h1,
 h2,
 h3,
 h4 {
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 
 button {
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 
 .bg-primary {
-  background-color: #1C1C24;
+  background-color: #1c1c24;
 }
 
 .text-light {
-  color: #EDEDED;
+  color: #ededed;
 }
 
 .text-medium {
   color: #706f6f;
 }
 
-.turq-gradient {
+.secondary-gradient {
   background: #136a8a;
   background: -webkit-linear-gradient(to right, #267871, #136a8a);
   background: linear-gradient(to right, #267871, #136a8a);
@@ -43,16 +43,20 @@ button {
   background: linear-gradient(to right, #e60000, #990000);
 }
 
-.dark-gradient {
-  background: #1C1C24;
-  background: -webkit-linear-gradient(to right, #1C1C24, #33323d);
-  background: linear-gradient(to right, #1C1C24, #0b1c1d);
+.primary-gradient {
+  background: #1c1c24;
+  background: -webkit-linear-gradient(to right, #1c1c24, #33323d);
+  background: linear-gradient(to right, #1c1c24, #0b1c1d);
 }
 
-.bg-secondary {
+.button-primary {
   background-color: #17635c;
 }
 
 .bg-red-500 {
-  background-color: #FF3B3B;
+  background-color: #ff3b3b;
+}
+
+.input {
+  background-color: rgb(189, 188, 188);
 }

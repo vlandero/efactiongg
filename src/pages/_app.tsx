@@ -8,14 +8,12 @@ export const metadata: Metadata = {
   description: "Create and maintain your own gaming org",
 };
 
-const MyApp: AppType = ({
-  Component, pageProps,
-}) => {
+const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <TRPCProvider>
       <Component {...pageProps} />
     </TRPCProvider>
   );
-}
+};
 
-export default MyApp
+export default MyApp;
