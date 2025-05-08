@@ -1,10 +1,19 @@
 import { Button } from "@/components/Button";
-import { ModalSignup } from "@/components/ModalSignup";
-import { useState } from "react";
+import { ModalSignup } from "@/components/ModalSignup/ModalSignup";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [modalSignupOpen, setModalSignupOpen] = useState(false);
-
+  useEffect(() => {
+    if (modalSignupOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [modalSignupOpen]);
   return (
     <div className="scroll-smooth">
       <section className="h-[50vh] bg-primary text-white flex items-center justify-center flex-col text-center px-4">
