@@ -1,4 +1,4 @@
 export type FactionRegistry = {
   sections: string[];
-  assignments: string[];
+  assignments: Record<string, string[]>; // section -> assignment[]
 };

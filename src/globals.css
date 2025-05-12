@@ -61,6 +61,18 @@ button {
   background-color: rgb(189, 188, 188);
 }
 
+.dark-input {
+  background-color: oklch(0.37 0.01 285.81 / 1);
+}
+
+.action-text {
+  background-color: oklch(70.7% .165 254.624);
+}
+
+.action-text:hover {
+    text-decoration: underline;
+}
+
 @keyframes shake {
   0% {
     transform: translateX(0);
@@ -81,4 +93,26 @@ button {
 
 .animate-shake {
   animation: shake 0.5s;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 20px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #19413d transparent;
 }
