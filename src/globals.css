@@ -116,3 +116,12 @@ button {
   scrollbar-width: thin;
   scrollbar-color: #19413d transparent;
 }
+
+
+[role="tree"] > div {
+  height: inherit !important; 
+}
+
+[role="tree"] {
+  height: inherit !important;
+}

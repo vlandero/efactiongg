@@ -26,59 +26,50 @@ export type FactionRegistryStepProps = {
 
 export type ShakingIndex =
   | { type: "section"; index: number }
-  | { type: "assignment"; sectionKey: string; index: number };
+  | { type: "assignment"; sectionId: string; index: number };
 
 export type UpdateItemParams =
   | {
-      type: "section";
-      sectionIndex: number;
-      newValue: string;
-    }
+    type: "section";
+    sectionIndex: number;
+    newValue: string;
+  }
   | {
-      type: "assignment";
-      sectionKey: string;
-      index: number;
-      newValue: string;
-    };
+    type: "assignment";
+    sectionId: string;
+    assignmentIndex: number;
+    newValue: string;
+  };
 
 export type MoveItemParams =
   | {
-      type: "section";
-      index: number;
-      direction: "up" | "down";
-    }
+    type: "section";
+    sectionIndex: number;
+    direction: "up" | "down";
+  }
   | {
-      type: "assignment";
-      sectionKey: string;
-      index: number;
-      direction: "up" | "down";
-    };
+    type: "assignment";
+    sectionId: string;
+    assignmentIndex: number;
+    direction: "up" | "down";
+  };
 
 export type RemoveItemParams =
   | {
-      type: "section";
-      index: number;
-    }
+    type: "section";
+    sectionId: string;
+  }
   | {
-      type: "assignment";
-      sectionKey: string;
-      index: number;
-    };
+    type: "assignment";
+    sectionId: string;
+    assignmentId: string;
+  };
 
 export type AddItemParams =
   | {
-      type: "section";
-    }
+    type: "section";
+  }
   | {
-      type: "assignment";
-      sectionKey: string;
-    };
-
-export type ShakeItemParams =
-  | {
-      type: "section";
-    }
-  | {
-      type: "assignment";
-      sectionKey: string;
-    };
+    type: "assignment";
+    sectionId: string;
+  };

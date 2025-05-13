@@ -9,6 +9,6 @@ export type Assignment = {
 };
 
 export type FactionRegistryDemo = {
-  sections: string[];
-  assignments: Record<string, string[]>; // section -> assignment[]
+  sections: Section[];
+  assignments: Record<string, Assignment[]>; // section -> assignment[]
 };

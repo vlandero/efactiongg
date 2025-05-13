@@ -8,8 +8,8 @@ import { ModalNavButtons } from "./components/ModalNavButtons";
 import { FactionRegistryStep } from "./steps/FactionRegistryStep/FactionRegistryStep";
 
 const defaultFactionRegistry: FactionRegistryDemo = {
-  sections: ["House", "Division", "Team", "Roster"],
-  assignments: { "Team": ["Coach"], "Roster": ["Main", "Subs"] },
+  sections: [{ id: '1', name: "House" }, { id: '2', name: "Division" }, { id: '3', name: "Team" }, { id: '4', name: "Roster" }],
+  assignments: { "3": [{ id: '33', name: "Coach" }], "4": [{ id: '211', name: "Main" }, { id: '321312', name: "Subs" }] },
 };
 
 const emptyFactionRegistry: FactionRegistryDemo = {
@@ -75,8 +75,8 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
         />
         <h4 className="text-light">This is part of the branding </h4>
         <ModalNavButtons>
-          <Button onClick={prevStep}>Back</Button>
-          <Button onClick={nextStep}>Next</Button>
+          <Button className="w-[200px]" onClick={prevStep}>Back</Button>
+          <Button className="w-[200px]" onClick={nextStep}>Next</Button>
         </ModalNavButtons>
       </div>
     );

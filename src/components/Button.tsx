@@ -2,22 +2,18 @@ import { PropsWithChildren } from "react";
 
 type ButtonProps = {
   onClick: () => void;
-  bgColor?: string;
-  textColor?: string;
   className?: string;
 };
 
 export const Button = ({
   children,
   onClick,
-  bgColor = "button-primary",
-  textColor = "text-white",
   className = "",
-}: ButtonProps & PropsWithChildren) => {
+}: PropsWithChildren<ButtonProps>) => {
   return (
     <button
       onClick={onClick}
-      className={`${bgColor} ${textColor} py-3 px-8 text-lg rounded-md ${className} transition-all duration-300 hover:opacity-90`}
+      className={`button-primary text-white py-3 px-8 text-lg rounded-md transition-all duration-300 hover:opacity-90 ${className}`}
     >
       {children}
     </button>
