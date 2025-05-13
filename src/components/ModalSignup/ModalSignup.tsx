@@ -9,12 +9,12 @@ import { FactionRegistryStep } from "./steps/FactionRegistryStep/FactionRegistry
 
 const defaultFactionRegistry: FactionRegistry = {
   sections: ["House", "Division", "Team", "Roster"],
-  assignments: ["Coaching staff", "Main", "Subs"],
+  assignments: { "Team": ["Coach"], "Roster": ["Main", "Subs"] },
 };
 
 const emptyFactionRegistry: FactionRegistry = {
   sections: [],
-  assignments: [],
+  assignments: {},
 };
 
 export const ModalSignup = ({ onClose }: ModalSignupProps) => {
