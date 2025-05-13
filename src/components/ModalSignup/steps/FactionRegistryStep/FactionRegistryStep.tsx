@@ -5,9 +5,15 @@ import cn from "classnames";
 import { FactionRegistry } from "@/models/FactionRegistry.models";
 import { ModalNavButtons } from "../../components/ModalNavButtons";
 import {
+  AddItemParams,
   EditableItemProps,
   FactionRegistryStepProps,
+  MoveItemParams,
+  RemoveItemParams,
+  ShakeItemParams,
+  ShakingIndex,
   TreeNode,
+  UpdateItemParams,
 } from "./FactionRegistryStep.types";
 
 export const EditableItem = ({
@@ -21,6 +27,7 @@ export const EditableItem = ({
   isShaking = false,
 }: EditableItemProps) => {
   return (
+    // TODO: replace colors with global css variables
     <div
       className={cn(
         "flex gap-2 items-center transition-all duration-150",
@@ -123,68 +130,12 @@ export const FactionRegistryStep = ({
     [factionRegistry]
   );
 
-  type UpdateItemParams =
-    | {
-        type: "section";
-        sectionIndex: number;
-        newValue: string;
-      }
-    | {
-        type: "assignment";
-        sectionKey: string;
-        index: number;
-        newValue: string;
-      };
-
-  type MoveItemParams =
-    | {
-        type: "section";
-        index: number;
-        direction: "up" | "down";
-      }
-    | {
-        type: "assignment";
-        sectionKey: string;
-        index: number;
-        direction: "up" | "down";
-      };
-
-  type RemoveItemParams =
-    | {
-        type: "section";
-        index: number;
-      }
-    | {
-        type: "assignment";
-        sectionKey: string;
-        index: number;
-      };
-
-  type AddItemParams =
-    | {
-        type: "section";
-      }
-    | {
-        type: "assignment";
-        sectionKey: string;
-      };
-
-  type ShakeItemParams =
-    | {
-        type: "section";
-      }
-    | {
-        type: "assignment";
-        sectionKey: string;
-      };
-
   const updateItem = (params: UpdateItemParams) => {
     setFactionRegistry((prev) => {
       if (params.type === "section") {
         const updatedSections = [...prev.sections];
         updatedSections[params.sectionIndex] = params.newValue;
 
-        // Also update the key in assignments map if it exists
         const oldSectionName = prev.sections[params.sectionIndex];
         const updatedAssignments: Record<string, string[]> = {
           ...prev.assignments,
@@ -248,7 +199,6 @@ export const FactionRegistryStep = ({
         const sections = prev.sections.filter((_, i) => i !== params.index);
         const updatedAssignments: Record<string, string[]> = {};
 
-        // Filter out assignments linked to removed section
         prev.sections.forEach((name, i) => {
           if (i !== params.index && name in prev.assignments) {
             updatedAssignments[name] = prev.assignments[name];
@@ -293,6 +243,7 @@ export const FactionRegistryStep = ({
   };
 
   const shakeFirstEmpty = (params: ShakeItemParams): boolean => {
+    // TODO just look through all the section names and the assignments and check if there is any one that is an empty string
     if (params.type === "section") {
       const index = factionRegistry.sections.findIndex((s) => s.trim() === "");
       if (index !== -1) {
@@ -312,10 +263,6 @@ export const FactionRegistryStep = ({
     }
     return false;
   };
-
-  type ShakingIndex =
-    | { type: "section"; index: number }
-    | { type: "assignment"; sectionKey: string; index: number };
 
   const isShaking = (
     type: "section" | "assignment",
