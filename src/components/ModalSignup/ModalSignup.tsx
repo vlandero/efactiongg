@@ -2,17 +2,17 @@ import { useState } from "react";
 import Modal from "../Modal";
 import { Button } from "@/components/Button";
 import { ButtonWithTooltip } from "../ButtonWithTooltip";
-import { FactionRegistry } from "@/models/FactionRegistry.models";
+import { FactionRegistryDemo } from "@/models/FactionRegistryDemo.models";
 import { ModalSignupProps } from "./ModalSignup.types";
 import { ModalNavButtons } from "./components/ModalNavButtons";
 import { FactionRegistryStep } from "./steps/FactionRegistryStep/FactionRegistryStep";
 
-const defaultFactionRegistry: FactionRegistry = {
+const defaultFactionRegistry: FactionRegistryDemo = {
   sections: ["House", "Division", "Team", "Roster"],
   assignments: { "Team": ["Coach"], "Roster": ["Main", "Subs"] },
 };
 
-const emptyFactionRegistry: FactionRegistry = {
+const emptyFactionRegistry: FactionRegistryDemo = {
   sections: [],
   assignments: {},
 };
@@ -24,7 +24,7 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
   const prevStep = () => setStep((prev) => prev - 1);
 
   const [orgName, setOrgName] = useState("");
-  const [factionRegistry, setFactionRegistry] = useState<FactionRegistry>(
+  const [factionRegistry, setFactionRegistry] = useState<FactionRegistryDemo>(
     defaultFactionRegistry
   );
 

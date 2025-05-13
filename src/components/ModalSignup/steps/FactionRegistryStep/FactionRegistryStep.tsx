@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/Button";
 import { Tree } from "react-arborist";
 import cn from "classnames";
-import { FactionRegistry } from "@/models/FactionRegistry.models";
+import { FactionRegistryDemo } from "@/models/FactionRegistryDemo.models";
 import { ModalNavButtons } from "../../components/ModalNavButtons";
 import {
   AddItemParams,
@@ -74,7 +74,7 @@ export const EditableItem = ({
 };
 
 function generateTreeData(
-  factionRegistry: FactionRegistry,
+  factionRegistry: FactionRegistryDemo,
   depth = 1,
   playersPerAssignment = 3
 ): TreeNode[] {

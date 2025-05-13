@@ -1,4 +1,4 @@
-import { FactionRegistry } from "@/models/FactionRegistry.models";
+import { FactionRegistryDemo } from "@/models/FactionRegistryDemo.models";
 
 export type TreeNode = {
   id: string;
@@ -18,8 +18,8 @@ export type EditableItemProps = {
 };
 
 export type FactionRegistryStepProps = {
-  factionRegistry: FactionRegistry;
-  setFactionRegistry: React.Dispatch<React.SetStateAction<FactionRegistry>>;
+  factionRegistry: FactionRegistryDemo;
+  setFactionRegistry: React.Dispatch<React.SetStateAction<FactionRegistryDemo>>;
   prevStep: () => void;
   nextStep: () => void;
 };
