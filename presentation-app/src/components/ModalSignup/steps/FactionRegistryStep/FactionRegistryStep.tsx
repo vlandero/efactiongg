@@ -2,7 +2,10 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/Button";
 import { Tree } from "react-arborist";
 import cn from "classnames";
-import { Assignment, FactionRegistryDemo } from "@/models/FactionRegistryDemo.models";
+import {
+  Assignment,
+  FactionRegistryDemo,
+} from "@/models/FactionRegistryDemo.models";
 import { ModalNavButtons } from "../../components/ModalNavButtons";
 import {
   AddItemParams,
@@ -93,10 +96,13 @@ function generateTreeData(
           return {
             id: `${sectionId}/${assignment.id}`,
             name: assignment.name,
-            children: assignment.name.trim() !== "" ? Array.from({ length: playersPerAssignment }, (_, j) => ({
-              id: `${sectionId}/${assignment.id}/player-${j + 1}`,
-              name: `Player ${j + 1}`,
-            })) : [],
+            children:
+              assignment.name.trim() !== ""
+                ? Array.from({ length: playersPerAssignment }, (_, j) => ({
+                    id: `${sectionId}/${assignment.id}/player-${j + 1}`,
+                    name: `Player ${j + 1}`,
+                  }))
+                : [],
           };
         }
       );
@@ -130,7 +136,8 @@ export const FactionRegistryStep = ({
     [factionRegistry]
   );
 
-  const updateItem = (params: UpdateItemParams) => { // TODO: add maximum character number for names
+  const updateItem = (params: UpdateItemParams) => {
+    // TODO: add maximum character number for names
     setFactionRegistry((prev) => {
       if (params.type === "section") {
         const updatedSections = [...prev.sections];
@@ -161,7 +168,9 @@ export const FactionRegistryStep = ({
       if (params.type === "section") {
         const sections = [...prev.sections];
         const target =
-          params.direction === "up" ? params.sectionIndex - 1 : params.sectionIndex + 1;
+          params.direction === "up"
+            ? params.sectionIndex - 1
+            : params.sectionIndex + 1;
         if (target < 0 || target >= sections.length) return prev;
         [sections[params.sectionIndex], sections[target]] = [
           sections[target],
@@ -172,9 +181,13 @@ export const FactionRegistryStep = ({
         const { sectionId, assignmentIndex, direction } = params;
         const assignments = { ...prev.assignments };
         const list = [...(assignments[sectionId] || [])];
-        const target = direction === "up" ? assignmentIndex - 1 : assignmentIndex + 1;
+        const target =
+          direction === "up" ? assignmentIndex - 1 : assignmentIndex + 1;
         if (target < 0 || target >= list.length) return prev;
-        [list[assignmentIndex], list[target]] = [list[target], list[assignmentIndex]];
+        [list[assignmentIndex], list[target]] = [
+          list[target],
+          list[assignmentIndex],
+        ];
         assignments[sectionId] = list;
         return { ...prev, assignments };
       }
@@ -199,7 +212,9 @@ export const FactionRegistryStep = ({
 
         const updatedAssignments = {
           ...prev.assignments,
-          [sectionId]: prev.assignments[sectionId].filter(a => a.id !== assignmentId),
+          [sectionId]: prev.assignments[sectionId].filter(
+            (a) => a.id !== assignmentId
+          ),
         };
 
         return { ...prev, assignments: updatedAssignments };
@@ -207,14 +222,16 @@ export const FactionRegistryStep = ({
     });
   };
 
-
   const addItem = (params: AddItemParams) => {
     if (shakeFirstEmpty()) return;
 
     setFactionRegistry((prev) => {
       if (params.type === "section") {
         if (prev.sections.length >= MAX_CATEGORIES) return prev;
-        return { ...prev, sections: [...prev.sections, { id: generateId(), name: "" }] };
+        return {
+          ...prev,
+          sections: [...prev.sections, { id: generateId(), name: "" }],
+        };
       } else {
         const sectionId = params.sectionId;
         const list = prev.assignments[sectionId] || [];
@@ -232,15 +249,19 @@ export const FactionRegistryStep = ({
   };
 
   const shakeFirstEmpty = (): boolean => {
-    const sectionIndex = factionRegistry.sections.findIndex((s) => s.name.trim() === "");
-    console.log(sectionIndex)
+    const sectionIndex = factionRegistry.sections.findIndex(
+      (s) => s.name.trim() === ""
+    );
+    console.log(sectionIndex);
     if (sectionIndex !== -1) {
       setShakingIndex({ type: "section", index: sectionIndex });
       setTimeout(() => setShakingIndex(null), 500);
       return true;
     }
     for (const sectionId of Object.keys(factionRegistry.assignments)) {
-      const i = factionRegistry.assignments[sectionId].findIndex(x => x.name.trim() === "")
+      const i = factionRegistry.assignments[sectionId].findIndex(
+        (x) => x.name.trim() === ""
+      );
       if (i !== -1) {
         console.log(i, sectionId);
         setShakingIndex({ type: "assignment", index: i, sectionId });
@@ -293,12 +314,22 @@ export const FactionRegistryStep = ({
                     newValue: val,
                   })
                 }
-                onRemove={() => removeItem({ type: "section", sectionId: cat.id })}
+                onRemove={() =>
+                  removeItem({ type: "section", sectionId: cat.id })
+                }
                 onMoveUp={() =>
-                  moveItem({ type: "section", direction: "up", sectionIndex: i })
+                  moveItem({
+                    type: "section",
+                    direction: "up",
+                    sectionIndex: i,
+                  })
                 }
                 onMoveDown={() =>
-                  moveItem({ type: "section", direction: "down", sectionIndex: i })
+                  moveItem({
+                    type: "section",
+                    direction: "down",
+                    sectionIndex: i,
+                  })
                 }
                 canMoveUp={i > 0}
                 canMoveDown={i < factionRegistry.sections.length - 1}
@@ -323,50 +354,48 @@ export const FactionRegistryStep = ({
               <div>
                 <p className="text-light text-sm mb-1">{s.name}</p>
                 <div className="flex flex-col gap-2">
-                  {(factionRegistry.assignments[s.id] || []).map(
-                    (a, i) => (
-                      <EditableItem
-                        key={`assignments-${i}`}
-                        value={a.name}
-                        onChange={(val) =>
-                          updateItem({
-                            type: "assignment",
-                            assignmentIndex: i,
-                            newValue: val,
-                            sectionId: s.id,
-                          })
-                        }
-                        onRemove={() =>
-                          removeItem({
-                            type: "assignment",
-                            assignmentId: a.id,
-                            sectionId: s.id,
-                          })
-                        }
-                        onMoveUp={() =>
-                          moveItem({
-                            type: "assignment",
-                            assignmentIndex: i,
-                            direction: "up",
-                            sectionId: s.id,
-                          })
-                        }
-                        onMoveDown={() =>
-                          moveItem({
-                            type: "assignment",
-                            assignmentIndex: i,
-                            direction: "down",
-                            sectionId: s.id,
-                          })
-                        }
-                        canMoveUp={i > 0}
-                        canMoveDown={
-                          i < factionRegistry.assignments[s.id].length - 1
-                        }
-                        isShaking={isShaking("assignment", i, s.id)}
-                      />
-                    )
-                  )}
+                  {(factionRegistry.assignments[s.id] || []).map((a, i) => (
+                    <EditableItem
+                      key={`assignments-${i}`}
+                      value={a.name}
+                      onChange={(val) =>
+                        updateItem({
+                          type: "assignment",
+                          assignmentIndex: i,
+                          newValue: val,
+                          sectionId: s.id,
+                        })
+                      }
+                      onRemove={() =>
+                        removeItem({
+                          type: "assignment",
+                          assignmentId: a.id,
+                          sectionId: s.id,
+                        })
+                      }
+                      onMoveUp={() =>
+                        moveItem({
+                          type: "assignment",
+                          assignmentIndex: i,
+                          direction: "up",
+                          sectionId: s.id,
+                        })
+                      }
+                      onMoveDown={() =>
+                        moveItem({
+                          type: "assignment",
+                          assignmentIndex: i,
+                          direction: "down",
+                          sectionId: s.id,
+                        })
+                      }
+                      canMoveUp={i > 0}
+                      canMoveDown={
+                        i < factionRegistry.assignments[s.id].length - 1
+                      }
+                      isShaking={isShaking("assignment", i, s.id)}
+                    />
+                  ))}
                   {(factionRegistry.assignments[s.id] || []).length <
                     MAX_CATEGORIES &&
                     s.name.trim() !== "" && (
@@ -413,14 +442,14 @@ export const FactionRegistryStep = ({
       </p>
 
       <ModalNavButtons>
-        <Button className="w-[150px]" onClick={prevStep}>Back</Button>
+        <Button className="w-[150px]" onClick={prevStep}>
+          Back
+        </Button>
         <Button
           className="w-[150px]"
           onClick={() =>
             // unassigned will be added as a leaf to the first level of the tree with an id of '0'
-            shakeFirstEmpty()
-              ? null
-              : nextStep()
+            shakeFirstEmpty() ? null : nextStep()
           }
         >
           Continue
