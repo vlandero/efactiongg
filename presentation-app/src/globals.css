@@ -21,9 +21,49 @@ button {
   color: #ededed;
 }
 
-.text-medium {
-  color: #706f6f;
+.input-medium {
+  border-radius: 0.25rem;
+  background-color: #3f3f46;
+  color: #f8fafc;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
+
+.input-dark {
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  background-color: #27272a;
+  color: #ffffff;
+  outline: none;
+}
+
+.custom-input::placeholder {
+  color: #71717a;
+}
+
+.custom-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.reject-color {
+  color: #f87171;
+}
+
+.reject-color:hover {
+  color: #dc2626;
+}
+
+.action-text {
+  color: #60a5fa;
+}
+
+.action-text:hover {
+  text-decoration: underline;
+}
+
 
 .secondary-gradient {
   background: #136a8a;
@@ -65,27 +105,23 @@ button {
   background-color: oklch(0.37 0.01 285.81 / 1);
 }
 
-.action-text {
-  background-color: oklch(70.7% .165 254.624);
-}
-
-.action-text:hover {
-    text-decoration: underline;
-}
-
 @keyframes shake {
   0% {
     transform: translateX(0);
   }
+
   25% {
     transform: translateX(-5px);
   }
+
   50% {
     transform: translateX(5px);
   }
+
   75% {
     transform: translateX(-5px);
   }
+
   100% {
     transform: translateX(0);
   }
@@ -118,8 +154,8 @@ button {
 }
 
 
-[role="tree"] > div {
-  height: inherit !important; 
+[role="tree"]>div {
+  height: inherit !important;
 }
 
 [role="tree"] {

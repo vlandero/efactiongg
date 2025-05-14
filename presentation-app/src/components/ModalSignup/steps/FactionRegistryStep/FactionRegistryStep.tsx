@@ -61,13 +61,13 @@ export const EditableItem = ({
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="rounded bg-zinc-700 text-light px-2 py-1 flex-1"
+        className="input-medium flex-1"
         placeholder="Enter name..."
       />
 
       <button
         onClick={onRemove}
-        className="text-red-400 hover:text-red-600"
+        className="reject-color"
         title="Remove"
       >
         ✕
@@ -99,9 +99,9 @@ function generateTreeData(
             children:
               assignment.name.trim() !== ""
                 ? Array.from({ length: playersPerAssignment }, (_, j) => ({
-                    id: `${sectionId}/${assignment.id}/player-${j + 1}`,
-                    name: `Player ${j + 1}`,
-                  }))
+                  id: `${sectionId}/${assignment.id}/player-${j + 1}`,
+                  name: `Player ${j + 1}`,
+                }))
                 : [],
           };
         }
@@ -305,7 +305,7 @@ export const FactionRegistryStep = ({
           <div className="flex flex-col gap-2">
             {factionRegistry.sections.map((cat, i) => (
               <EditableItem
-                key={`section-${i}`}
+                key={`section-${cat.id}`}
                 value={cat.name}
                 onChange={(val) =>
                   updateItem({
@@ -339,7 +339,7 @@ export const FactionRegistryStep = ({
             {factionRegistry.sections.length < MAX_CATEGORIES && (
               <button
                 onClick={() => addItem({ type: "section" })}
-                className="text-blue-400 hover:underline text-sm"
+                className="action-text text-sm"
               >
                 + Add section
               </button>
@@ -351,12 +351,12 @@ export const FactionRegistryStep = ({
           <h4 className="text-light text-sm mb-3">Assignments</h4>
           <div>
             {factionRegistry.sections.map((s) => (
-              <div>
+              <div key={s.id}>
                 <p className="text-light text-sm mb-1">{s.name}</p>
                 <div className="flex flex-col gap-2">
                   {(factionRegistry.assignments[s.id] || []).map((a, i) => (
                     <EditableItem
-                      key={`assignments-${i}`}
+                      key={`assignments-${a.id}`}
                       value={a.name}
                       onChange={(val) =>
                         updateItem({
@@ -403,7 +403,7 @@ export const FactionRegistryStep = ({
                         onClick={() =>
                           addItem({ type: "assignment", sectionId: s.id })
                         }
-                        className="text-blue-400 hover:underline text-sm"
+                        className="action-text text-sm"
                       >
                         + Add assignment
                       </button>

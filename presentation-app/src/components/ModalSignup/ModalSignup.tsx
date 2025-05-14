@@ -6,15 +6,12 @@ import { FactionRegistryDemo } from "@/models/FactionRegistryDemo.models";
 import { ModalSignupProps } from "./ModalSignup.types";
 import { ModalNavButtons } from "./components/ModalNavButtons";
 import { FactionRegistryStep } from "./steps/FactionRegistryStep/FactionRegistryStep";
+import { PickName } from "./steps/PickName/PickName";
+import { PickPictures } from "./steps/PickPictures/PickPictures";
 
 const defaultFactionRegistry: FactionRegistryDemo = {
   sections: [{ id: '1', name: "House" }, { id: '2', name: "Division" }, { id: '3', name: "Team" }, { id: '4', name: "Roster" }],
   assignments: { "3": [{ id: '33', name: "Coach" }], "4": [{ id: '211', name: "Main" }, { id: '321312', name: "Subs" }] },
-};
-
-const emptyFactionRegistry: FactionRegistryDemo = {
-  sections: [],
-  assignments: {},
 };
 
 export const ModalSignup = ({ onClose }: ModalSignupProps) => {
@@ -24,6 +21,9 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
   const prevStep = () => setStep((prev) => prev - 1);
 
   const [orgName, setOrgName] = useState("");
+  const [subdomain, setSubdomain] = useState("");
+  const [logo, setLogo] = useState<string | null>(null);
+  const [bg, setBg] = useState<string | null>(null);
   const [factionRegistry, setFactionRegistry] = useState<FactionRegistryDemo>(
     defaultFactionRegistry
   );
@@ -62,25 +62,7 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
     );
   };
 
-  const PickName = () => {
-    return (
-      <div className="flex flex-col gap-[30px]">
-        <h3 className="text-xl text-light">Name Your Organization</h3>
-        <input
-          type="text"
-          placeholder="Organization Name"
-          value={orgName}
-          onChange={(e) => setOrgName(e.target.value)}
-          className="w-[300px] p-2 m-auto text-black rounded-md input"
-        />
-        <h4 className="text-light">This is part of the branding </h4>
-        <ModalNavButtons>
-          <Button className="w-[200px]" onClick={prevStep}>Back</Button>
-          <Button className="w-[200px]" onClick={nextStep}>Next</Button>
-        </ModalNavButtons>
-      </div>
-    );
-  };
+
 
   return (
     <Modal
@@ -92,8 +74,10 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
     >
       <div>
         {step === 1 && <Intro />}
+        {step === 2 && <PickName subdomain={subdomain} setSubdomain={setSubdomain} name={orgName} setName={setOrgName} nextStep={nextStep} prevStep={prevStep} />}
+        {step === 3 && <PickPictures logo={logo} setLogo={setLogo} bg={bg} setBg={setBg} nextStep={nextStep} prevStep={prevStep} />}
 
-        {step === 2 && (
+        {step === 4 && (
           <FactionRegistryStep
             factionRegistry={factionRegistry}
             nextStep={nextStep}
@@ -131,7 +115,6 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
             <Button onClick={onClose}>Go to Dashboard</Button>
           </div>
         )}
-        {step === 7 && <PickName />}
         {step === 6 && (
           <div>
             <h3 className="text-xl mb-2 text-light">

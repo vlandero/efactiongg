@@ -3,10 +3,11 @@ import React from "react";
 type ModalProps = {
   onClose: () => void;
   title: string;
+  overlayClickable?: boolean
   children: React.ReactNode;
 };
 
-const Modal: React.FC<ModalProps> = ({ onClose, title, children }) => {
+const Modal: React.FC<ModalProps> = ({ onClose, title, children, overlayClickable = false }) => {
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -15,7 +16,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, title, children }) => {
   return (
     <div
       className="fixed inset-0 bg-black/40 bg-opacity-50 flex justify-center items-center z-50"
-      onClick={handleOverlayClick}
+      onClick={overlayClickable ? handleOverlayClick : () => { }}
     >
       <div className="primary-gradient w-[550px] p-6 rounded-xl shadow-xl max-h-[90%] overflow-auto custom-scrollbar">
         <div className="flex justify-between items-center">
