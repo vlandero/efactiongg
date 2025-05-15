@@ -4,6 +4,7 @@ import { Button } from "@/components/Button";
 import { ModalNavButtons } from "@/components/ModalSignup/components/ModalNavButtons";
 import { PickPicturesParams } from "./PickPictures.types";
 import { getCroppedImg } from "@/utils/cropImage";
+import { Header } from "../../components/Header";
 
 export const PickPictures = ({ logo, setLogo, bg, setBg, nextStep, prevStep }: PickPicturesParams) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -109,12 +110,7 @@ export const PickPictures = ({ logo, setLogo, bg, setBg, nextStep, prevStep }: P
 
     return (
         <div className="flex flex-col items-center gap-8 text-light">
-            <div className="text-center space-y-2">
-                <h3 className="text-2xl font-semibold">Customize Your Branding</h3>
-                <p className="text-l text-zinc-400 max-w-md">
-                    Upload your logo and choose how your login page looks.
-                </p>
-            </div>
+            <Header title="Customize Your Branding" subtitle="Upload your logo and choose how your login page looks." />
             <input
                 ref={fileInputRef}
                 type="file"

@@ -4,10 +4,11 @@ import { Button } from "@/components/Button";
 import { ButtonWithTooltip } from "../ButtonWithTooltip";
 import { FactionRegistryDemo } from "@/models/FactionRegistryDemo.models";
 import { ModalSignupProps } from "./ModalSignup.types";
-import { ModalNavButtons } from "./components/ModalNavButtons";
 import { FactionRegistryStep } from "./steps/FactionRegistryStep/FactionRegistryStep";
 import { PickName } from "./steps/PickName/PickName";
 import { PickPictures } from "./steps/PickPictures/PickPictures";
+import { PricingStep } from "./steps/PricingStep/PricingStep";
+import { pricingPlans } from "@/constants/pricing";
 
 const defaultFactionRegistry: FactionRegistryDemo = {
   sections: [{ id: '1', name: "House" }, { id: '2', name: "Division" }, { id: '3', name: "Team" }, { id: '4', name: "Roster" }],
@@ -24,6 +25,8 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
   const [subdomain, setSubdomain] = useState("");
   const [logo, setLogo] = useState<string | null>(null);
   const [bg, setBg] = useState<string | null>(null);
+  const [selectedPricingPlanId, setSelectedPricingPlanId] = useState<string>('free');
+  const [selectedAddonsIds, setSelectedAddonsIds] = useState<string[]>(pricingPlans[selectedPricingPlanId].includedAddons);
   const [factionRegistry, setFactionRegistry] = useState<FactionRegistryDemo>(
     defaultFactionRegistry
   );
@@ -71,13 +74,14 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
         setStep(1);
       }}
       title="Let's get started!"
+      extraClassName={step===4 ? "w-[1100px]" : ""}
     >
       <div>
         {step === 1 && <Intro />}
         {step === 2 && <PickName subdomain={subdomain} setSubdomain={setSubdomain} name={orgName} setName={setOrgName} nextStep={nextStep} prevStep={prevStep} />}
         {step === 3 && <PickPictures logo={logo} setLogo={setLogo} bg={bg} setBg={setBg} nextStep={nextStep} prevStep={prevStep} />}
-
-        {step === 4 && (
+        {step === 4 && <PricingStep selectedPlanId={selectedPricingPlanId} setSelectedPlanId={setSelectedPricingPlanId} setSelectedAddonsIds={setSelectedAddonsIds} selectedAddonsIds={selectedAddonsIds} nextStep={nextStep} prevStep={prevStep} />}
+        {step === 5 && (
           <FactionRegistryStep
             factionRegistry={factionRegistry}
             nextStep={nextStep}
@@ -108,14 +112,14 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
           </div>
         )}
         {/* branding */}
-        {step === 5 && (
+        {step === 15 && (
           <div>
             <h3 className="text-xl mb-2 text-light">Congratulations!</h3>
             <p>You've completed the setup. Click below to proceed.</p>
             <Button onClick={onClose}>Go to Dashboard</Button>
           </div>
         )}
-        {step === 6 && (
+        {step === 16 && (
           <div>
             <h3 className="text-xl mb-2 text-light">
               Upload a Picture (Optional)

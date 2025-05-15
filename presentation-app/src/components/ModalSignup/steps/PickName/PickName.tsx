@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/Button";
 import { ModalNavButtons } from "@/components/ModalSignup/components/ModalNavButtons";
 import { PickNameParams } from "./PickName.types";
+import { Header } from "../../components/Header";
 
 export const PickName = ({ name, nextStep, prevStep, setName, subdomain, setSubdomain }: PickNameParams) => {
     const [subdomainTouched, setSubdomainTouched] = useState(false);
@@ -29,12 +30,7 @@ export const PickName = ({ name, nextStep, prevStep, setName, subdomain, setSubd
 
     return (
         <div className="flex flex-col items-center gap-8 text-light">
-            <div className="text-center space-y-2">
-                <h3 className="text-2xl font-semibold">Name Your Organization</h3>
-                <p className="text-l text-zinc-400 max-w-md">
-                    This will be part of your branding and subdomain — you can change it later.
-                </p>
-            </div>
+            <Header title="Name Your Organization" subtitle="This will be part of your branding package — you can change it later." />
 
             <div className="space-y-6 w-full max-w-md">
                 <label className="flex flex-col">
