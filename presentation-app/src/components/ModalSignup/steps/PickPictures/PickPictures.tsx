@@ -5,6 +5,7 @@ import { ModalNavButtons } from "@/components/ModalSignup/components/ModalNavBut
 import { PickPicturesParams } from "./PickPictures.types";
 import { getCroppedImg } from "@/utils/cropImage";
 import { Header } from "../../components/Header";
+import { X } from "lucide-react";
 
 export const PickPictures = ({ logo, setLogo, bg, setBg, nextStep, prevStep }: PickPicturesParams) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -16,7 +17,7 @@ export const PickPictures = ({ logo, setLogo, bg, setBg, nextStep, prevStep }: P
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
-    const [backgroundMode, setBackgroundMode] = useState<'image' | 'gradient'>('image');
+    const [backgroundMode, setBackgroundMode] = useState<'image' | 'gradient'>('gradient');
     const [gradientColors, setGradientColors] = useState<string[]>(['#000000']);
     const [gradientDirection, setGradientDirection] = useState<'to right' | 'to bottom'>('to right');
 
@@ -139,14 +140,14 @@ export const PickPictures = ({ logo, setLogo, bg, setBg, nextStep, prevStep }: P
                     )}
                 </div>
 
-                <div className="flex gap-4">
+                {/* <div className="flex gap-4">
                     <Button onClick={() => setBackgroundMode('image')}>
                         Background Image
                     </Button>
                     <Button onClick={() => setBackgroundMode('gradient')}>
                         Gradient
                     </Button>
-                </div>
+                </div> */}
 
                 {backgroundMode === 'image' ? (
                     <div className="flex flex-col gap-2">
@@ -175,21 +176,27 @@ export const PickPictures = ({ logo, setLogo, bg, setBg, nextStep, prevStep }: P
                 ) : (
                     <div className="flex flex-col gap-2">
                         <span className="text-m text-zinc-300">Gradient Colors</span>
-                        {gradientColors.map((color, i) => (
-                            <div key={i} className="flex items-center gap-2">
-                                <input
-                                    type="color"
-                                    value={color}
-                                    onChange={(e) => updateGradientColor(i, e.target.value)}
-                                    className="w-8 h-8 rounded border border-zinc-400"
-                                />
-                                {gradientColors.length > 1 && (
-                                    <Button onClick={() => removeGradientColor(i)}>
-                                        Remove
-                                    </Button>
-                                )}
-                            </div>
-                        ))}
+                        <div className="flex flex-wrap gap-2">
+                            {gradientColors.map((color, i) => (
+                                <div key={i} className="flex items-center gap-2 relative">
+                                    <input
+                                        type="color"
+                                        value={color}
+                                        onChange={(e) => updateGradientColor(i, e.target.value)}
+                                        className="w-8 h-8 rounded border border-zinc-400"
+                                    />
+                                    {gradientColors.length > 1 && (
+                                        <button
+                                            type="button"
+                                            onClick={() => removeGradientColor(i)}
+                                            className="absolute -top-1 -right-1 bg-black rounded-full p-[2px] hover:bg-zinc-700"
+                                        >
+                                            <X className="w-4 h-4 text-white" />
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
                         <Button onClick={addGradientColor} className="mt-2 bg-transparent text-blue-400 hover:text-blue-600 hover:underline">
                             + Add Color
                         </Button>
