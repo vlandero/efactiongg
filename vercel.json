@@ -1,0 +1,32 @@
+{
+    "projects": {
+        "main-app": {
+            "source": "main-app"
+        },
+        "presentation-app": {
+            "source": "presentation-app"
+        }
+    },
+    "rewrites": [
+        {
+            "source": "/:path*",
+            "has": [
+                {
+                    "type": "host",
+                    "value": ":subdomain.efactiongg.vercel.app"
+                }
+            ],
+            "destination": "main-app/:path*"
+        },
+        {
+            "source": "/:path*",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "efactiongg.vercel.app"
+                }
+            ],
+            "destination": "presentation-app/:path*"
+        }
+    ]
+}
