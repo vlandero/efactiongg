@@ -39,6 +39,12 @@ button {
   outline: none;
 }
 
+@media (max-width: 700px) {
+  .login-preview {
+    padding: 0 !important;
+  }
+}
+
 .custom-input::placeholder {
   color: #71717a;
 }

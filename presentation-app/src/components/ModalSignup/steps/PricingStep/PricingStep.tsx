@@ -38,7 +38,7 @@ export const PricingStep = ({ selectedPlanId, setSelectedPlanId, selectedAddonsI
                 selectedAddons={selectedAddonsIds}
                 toggleAddon={toggleAddon}
             />
-            <ModalNavButtons>
+            <ModalNavButtons className="max-w-[800px]">
                 <Button className="w-40" onClick={prevStep}>Back</Button>
                 <Button className="w-40" onClick={nextStep}>Next</Button>
             </ModalNavButtons>

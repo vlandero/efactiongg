@@ -1,7 +1,8 @@
 import { PropsWithChildren } from "react";
+import cn from 'classnames'
 
-export const ModalNavButtons = ({ children }: PropsWithChildren) => {
+export const ModalNavButtons = ({ children, className = "" }: PropsWithChildren<{ className?: string }>) => {
   return (
-    <div className="flex justify-between w-[100%] max-w-[500px] m-auto">{children}</div>
+    <div className={cn("flex justify-between w-[100%] max-w-[500px] m-auto", className)}>{children}</div>
   );
 };

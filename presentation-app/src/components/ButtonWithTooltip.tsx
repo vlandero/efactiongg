@@ -29,7 +29,7 @@ export const ButtonWithTooltip = ({
           <Tooltip.Content
             side="right"
             sideOffset={5}
-            className="bg-black text-light text-xs px-3 py-2 rounded-md shadow-lg z-50 max-w-[200px]"
+            className="bg-black text-light text-s px-3 py-2 rounded-md shadow-lg z-50 max-w-[200px]"
           >
             {tooltip}
             <Tooltip.Arrow className="fill-black" />

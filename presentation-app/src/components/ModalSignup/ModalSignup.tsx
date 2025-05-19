@@ -10,16 +10,44 @@ import { PickPictures } from "./steps/PickPictures/PickPictures";
 import { PricingStep } from "./steps/PricingStep/PricingStep";
 import { pricingPlans } from "@/constants/pricing";
 
-const defaultFactionRegistry: FactionRegistryDemo = {
+const networkFactionRegistry: FactionRegistryDemo = {
   sections: [
-    { id: "1", name: "House" },
+    { id: "1", name: "Region" },
     { id: "2", name: "Division" },
     { id: "3", name: "Team" },
     { id: "4", name: "Roster" },
   ],
   assignments: {
-    "3": [{ id: "33", name: "Coach" }],
+    "3": [{ id: "33", name: "Coach" }, { id: "313", name: "Scout" }, { id: "314", name: "Analyst" }],
     "4": [
+      { id: "211", name: "Main" },
+      { id: "321312", name: "Subs" },
+    ],
+  },
+};
+
+const orgFactionRegistry: FactionRegistryDemo = {
+  sections: [
+    { id: "2", name: "Guild" },
+    { id: "3", name: "Team" },
+    { id: "4", name: "Roster" },
+  ],
+  assignments: {
+    "3": [{ id: "33", name: "Coach" }, { id: "314", name: "Analyst" }],
+    "4": [
+      { id: "211", name: "Main" },
+      { id: "321312", name: "Subs" },
+    ],
+  },
+};
+
+const smallFactionRegistry: FactionRegistryDemo = {
+  sections: [
+    { id: "4", name: "Team" },
+  ],
+  assignments: {
+    "4": [
+      { id: "33", name: "Coach" },
       { id: "211", name: "Main" },
       { id: "321312", name: "Subs" },
     ],
@@ -35,14 +63,15 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
   const [orgName, setOrgName] = useState("");
   const [subdomain, setSubdomain] = useState("");
   const [logo, setLogo] = useState<string | null>(null);
-  const [bg, setBg] = useState<string | null>(null);
+  const [bg, setBg] = useState<string[]>(["#000000"]);
+  const [bgDirection, setBgDirection] = useState<"to right" | "to bottom">('to right');
   const [selectedPricingPlanId, setSelectedPricingPlanId] =
     useState<string>("free");
   const [selectedAddonsIds, setSelectedAddonsIds] = useState<string[]>(
     pricingPlans[selectedPricingPlanId].includedAddons
   );
   const [factionRegistry, setFactionRegistry] = useState<FactionRegistryDemo>(
-    defaultFactionRegistry
+    smallFactionRegistry
   );
 
   const Intro = () => {
@@ -57,19 +86,28 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
         </h4>
         <div className="flex flex-col justify-between h-50 items-center">
           <ButtonWithTooltip
-            onClick={nextStep}
+            onClick={() => {
+              setFactionRegistry(smallFactionRegistry)
+              nextStep()
+            }}
             className="w-[250px]"
             label="Small team"
             tooltip="Great for close groups of friends or small teams who just want an easy way to stay organized."
           />
           <ButtonWithTooltip
-            onClick={nextStep}
+            onClick={() => {
+              setFactionRegistry(orgFactionRegistry)
+              nextStep()
+            }}
             className="w-[250px]"
             label="Bigger Organization"
             tooltip="Perfect if you’ve got lots of teams or play multiple games—this helps keep everything under control."
           />
           <ButtonWithTooltip
-            onClick={nextStep}
+            onClick={() => {
+              setFactionRegistry(networkFactionRegistry)
+              nextStep()
+            }}
             className="w-[250px]"
             label="Gaming Network"
             tooltip="Awesome for big gaming communities where anyone can join, team up, and explore freely."
@@ -86,7 +124,7 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
         setStep(1);
       }}
       title="Let's get started!"
-      extraClassName={step === 4 ? "w-[1100px]" : ""}
+      extraClassName={[3, 4].includes(step) ? "w-[1100px]" : ""}
     >
       <div>
         {step === 1 && <Intro />}
@@ -102,6 +140,8 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
         )}
         {step === 3 && (
           <PickPictures
+            bgDirection={bgDirection}
+            setBgDirection={setBgDirection}
             logo={logo}
             setLogo={setLogo}
             bg={bg}
@@ -151,7 +191,6 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
             <Button onClick={nextStep}>Next</Button>
           </div>
         )}
-        {/* branding */}
         {step === 15 && (
           <div>
             <h3 className="text-xl mb-2 text-light">Congratulations!</h3>
