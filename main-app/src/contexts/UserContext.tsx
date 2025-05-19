@@ -1,3 +1,4 @@
+import { dummyUser } from "@/dummyData";
 import { User } from "@/models/DB/User.model";
 import { createContext, useContext, useState, ReactNode } from "react";
 
@@ -9,7 +10,7 @@ type UserContextType = {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>(dummyUser);
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

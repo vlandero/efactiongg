@@ -1,10 +1,12 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { trpc } from "@/_trpc/client";
 import { Game, Team } from "@/models/Game.model";
 import { getChampionIconUrl, parseGame } from "@/utils/game";
 import { GetServerSideProps } from "next";
+import Select from "react-select";
+import Modal from "@/components/Modal";
 
 function GameCard({ game, onRemove }: { game: Game; onRemove: (id: string) => void }) {
     return (
@@ -49,9 +51,86 @@ function TeamBlock({ team, color }: { team: Team; color: "blue" | "red" }) {
     );
 }
 
+function ChampionStats({ calculateWinrate }: { calculateWinrate: (champ: string) => string }) {
+    const [champions, setChampions] = useState<{ label: string, value: string }[]>([]);
+    const [selectedChampion, setSelectedChampion] = useState("");
+
+    useEffect(() => {
+        fetch("https://ddragon.leagueoflegends.com/cdn/14.9.1/data/en_US/champion.json")
+            .then((res) => res.json())
+            .then((data) => {
+                const champList = Object.values(data.data).map((champ: any) => ({
+                    label: champ.name,
+                    value: champ.id,
+                }));
+                setChampions(champList);
+            });
+    }, []);
+
+    return (
+        <div className="space-y-4">
+            <div>
+                <label className="block mb-2 text-sm">Champion</label>
+                <Select
+                    options={champions}
+                    styles={{
+                        control: (provided, state) => ({
+                            ...provided,
+                            backgroundColor: "#262626",
+                            borderColor: "#404040",
+                            color: "white",
+                            padding: "0.25rem 0.5rem",
+                            borderRadius: "0.25rem",
+                            boxShadow: state.isFocused ? "0 0 0 1px #737373" : "none",
+                            minHeight: "unset",
+                        }),
+                        singleValue: (provided) => ({
+                            ...provided,
+                            color: "white",
+                        }),
+                        input: (provided) => ({
+                            ...provided,
+                            color: "white",
+                        }),
+                        menu: (provided) => ({
+                            ...provided,
+                            backgroundColor: "#262626",
+                            borderColor: "#404040",
+                            zIndex: 10,
+                        }),
+                        option: (provided, state) => ({
+                            ...provided,
+                            backgroundColor: state.isFocused ? "#3f3f46" : "#262626",
+                            color: "white",
+                            cursor: "pointer",
+                        }),
+                        placeholder: (provided) => ({
+                            ...provided,
+                            color: "#a3a3a3",
+                        }),
+                    }}
+                    onChange={(option) => setSelectedChampion(option?.value || "")}
+                    className="text-black"
+                    placeholder="Select a champion..."
+                />
+            </div>
+            {selectedChampion && (
+                <div className="text-lg">
+                    Winrate for <strong>{selectedChampion}</strong>: {calculateWinrate(selectedChampion)}
+                </div>
+            )}
+        </div>
+    );
+}
+
+
 type CategorizedGames = Record<string, Game[]>;
 
 export default function AnalyticsPage({ categorizedGames }: { categorizedGames: CategorizedGames }) {
+    const [showModal, setShowModal] = useState(false);
+    const [newGame, setNewGame] = useState<Game | null>(null);
+    const [categoryInput, setCategoryInput] = useState("");
+
     const parseRofl = trpc.parseRofl.parse.useMutation();
     const [categories, setCategories] = useState<Record<string, boolean>>(
         Object.fromEntries(Object.keys(categorizedGames).map((key) => [key, true]))
@@ -61,7 +140,6 @@ export default function AnalyticsPage({ categorizedGames }: { categorizedGames: 
             .flatMap(([category, games]) => categories[category] ? games : [])
     );
     const [selectedTab, setSelectedTab] = useState<"matches" | "statistics">("matches");
-    const [selectedChampion, setSelectedChampion] = useState<string>("");
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,11 +158,37 @@ export default function AnalyticsPage({ categorizedGames }: { categorizedGames: 
         const resJson = await res.json();
         const parsed = await parseRofl.mutateAsync({ path: resJson.path });
 
-        const newGame = parseGame(parsed);
-        const category = "scrims"; // default to scrims for new uploads
-        categorizedGames[category] = [newGame, ...(categorizedGames[category] || [])];
-        refreshGames();
+        const game = parseGame(parsed);
+        setNewGame(game);
+        setShowModal(true);
         if (inputRef.current) inputRef.current.value = "";
+    };
+
+    const assignGameToCategory = (category: string) => {
+        if (!newGame) return;
+        categorizedGames[category] = [newGame, ...(categorizedGames[category] || [])];
+
+        if (!categories[category]) {
+            setCategories(prev => ({ ...prev, [category]: true }));
+        }
+
+        setNewGame(null);
+        setShowModal(false);
+        refreshGames();
+    };
+
+    const removeCategory = (cat: string) => {
+        console.log(categorizedGames)
+        if (categorizedGames[cat]?.length > 0) {
+            alert(`Cannot remove "${cat}" because it still contains games.`);
+            return;
+        }
+
+        const updated = { ...categories };
+        delete updated[cat];
+        delete categorizedGames[cat];
+        setCategories(updated);
+        refreshGames();
     };
 
     const refreshGames = () => {
@@ -135,9 +239,9 @@ export default function AnalyticsPage({ categorizedGames }: { categorizedGames: 
                     </label>
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex gap-4 flex-wrap">
                     {Object.keys(categories).map((cat) => (
-                        <label key={cat} className="flex items-center gap-2">
+                        <div key={cat} className="flex items-center gap-2 bg-neutral-800 px-3 py-1 rounded">
                             <input
                                 type="checkbox"
                                 checked={categories[cat]}
@@ -145,8 +249,43 @@ export default function AnalyticsPage({ categorizedGames }: { categorizedGames: 
                                 className="accent-blue-500"
                             />
                             <span>{cat}</span>
-                        </label>
+                            <button
+                                onClick={() => removeCategory(cat)}
+                                className="text-red-400 hover:text-red-300 ml-1 text-sm"
+                                title="Remove category"
+                            >
+                                &times;
+                            </button>
+                        </div>
                     ))}
+                    <div>
+                        <label className="text-sm mb-1 block">Add new category:</label>
+                        <div className="flex gap-2">
+                            <input
+                                value={categoryInput}
+                                onChange={(e) => setCategoryInput(e.target.value)}
+                                placeholder="e.g., scrims"
+                                className="bg-neutral-800 border border-neutral-600 rounded px-2 py-1 text-white"
+                            />
+                            <button
+                                onClick={() => {
+                                    const trimmed = categoryInput.trim();
+                                    if (trimmed) {
+                                        if (!categorizedGames[trimmed]) {
+                                            categorizedGames[trimmed] = [];
+                                            setCategories((prev) => ({ ...prev, [trimmed]: true }));
+                                            refreshGames();
+                                        }
+                                        setCategoryInput("");
+                                    }
+                                }}
+                                className="px-3 py-1 bg-green-600 hover:bg-green-500 rounded text-white"
+                            >
+                                Add
+                            </button>
+
+                        </div>
+                    </div>
                 </div>
 
                 <div className="flex gap-4 mt-4">
@@ -177,22 +316,30 @@ export default function AnalyticsPage({ categorizedGames }: { categorizedGames: 
                 )}
 
                 {selectedTab === "statistics" && (
-                    <div className="space-y-4">
-                        <div>
-                            <label className="block mb-2 text-sm">Champion Name</label>
-                            <input
-                                value={selectedChampion}
-                                onChange={(e) => setSelectedChampion(e.target.value)}
-                                className="w-full p-2 bg-neutral-800 border border-neutral-700 rounded"
-                                placeholder="e.g., Ahri"
-                            />
-                        </div>
-                        <div className="text-lg">
-                            Winrate for <strong>{selectedChampion}</strong>: {calculateWinrate(selectedChampion)}
-                        </div>
-                    </div>
+                    <ChampionStats calculateWinrate={calculateWinrate} />
                 )}
             </div>
+            {showModal && newGame && (
+                <Modal title="Choose a Category" onClose={() => setShowModal(false)} overlayClickable>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="text-sm mb-1 block">Select existing category:</label>
+                            <div className="flex flex-wrap gap-2">
+                                {Object.keys(categories).map((cat) => (
+                                    <button
+                                        key={cat}
+                                        onClick={() => assignGameToCategory(cat)}
+                                        className="px-3 py-1 rounded bg-blue-700 hover:bg-blue-600 text-white text-sm"
+                                    >
+                                        {cat}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
+            )}
+
         </div>
     );
 }

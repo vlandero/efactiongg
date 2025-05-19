@@ -1,19 +1,29 @@
-import { GameInDB } from "./GameInDB.model";
 import { User } from "./User.model";
 
 export type Section = {
   id: string;
   name: string;
-  game?: GameInDB;
+  isTeam?: boolean;
 };
 
 export type Assignment = {
   id: string;
   name: string;
-  players: User[]
+  isTeam?: boolean;
 };
 
 export type FactionRegistry = {
   sections: Section[];
-  assignments: Record<string, Assignment[]>; // section -> assignment[]
+  assignments: Record<string, Assignment[]>;
+};
+
+export type PlayerAssignment = {
+  user: User;
+  sectionPath: string[];
+  assignmentId: string;
+};
+
+export type FactionRegistryFull = {
+  registry: FactionRegistry;
+  players: PlayerAssignment[];
 };
