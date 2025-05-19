@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "@/contexts/UserContext";
-import Navbar from "@/components/Navbar";
 
 export default function Home() {
   const router = useRouter();
@@ -11,7 +10,7 @@ export default function Home() {
     if (!user) {
       router.push("/");
     } else {
-      console.log("Fetching dashboard data for:", user);
+      // console.log("Fetching dashboard data for:", user);
     }
   }, [user]);
 

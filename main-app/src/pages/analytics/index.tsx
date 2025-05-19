@@ -178,7 +178,7 @@ export default function AnalyticsPage({ categorizedGames }: { categorizedGames: 
     };
 
     const removeCategory = (cat: string) => {
-        console.log(categorizedGames)
+        // console.log(categorizedGames)
         if (categorizedGames[cat]?.length > 0) {
             alert(`Cannot remove "${cat}" because it still contains games.`);
             return;

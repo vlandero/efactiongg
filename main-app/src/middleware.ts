@@ -7,7 +7,7 @@ function isLoggedIn(req: NextRequest): boolean {
 }
 
 export function middleware(req: NextRequest) {
-    console.log('middleware is running');
+    // console.log('middleware is running');
     const { pathname } = req.nextUrl;
 
     // Allow the home page to be accessed by everyone

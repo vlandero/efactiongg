@@ -101,7 +101,7 @@ function generateTreeData(
     return Array.from({ length: depth }, (_, i) => {
       const sectionLabel = `${section.name} ${i + 1}`;
       const sectionId = [...path, sectionLabel].join("/");
-      console.log(assignments[sectionLabel]);
+      // console.log(assignments[sectionLabel]);
       const assignmentsChildren = (assignments[section.id] || []).map(
         (assignment) => {
           return {
@@ -337,7 +337,6 @@ export const FactionRegistryStep = ({
     const sectionIndex = factionRegistry.sections.findIndex(
       (s) => s.name.trim() === ""
     );
-    console.log(sectionIndex);
     if (sectionIndex !== -1) {
       setShakingIndex({ type: "section", index: sectionIndex });
       setTimeout(() => setShakingIndex(null), 500);
@@ -348,7 +347,6 @@ export const FactionRegistryStep = ({
         (x) => x.name.trim() === ""
       );
       if (i !== -1) {
-        console.log(i, sectionId);
         setShakingIndex({ type: "assignment", index: i, sectionId });
         setTimeout(() => setShakingIndex(null), 500);
         return true;
