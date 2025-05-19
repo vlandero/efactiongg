@@ -1,4 +1,4 @@
-import { Player } from "./Player.model";
+import { User } from "./Player.model";
 
 export type Section = {
   id: string;
@@ -8,7 +8,7 @@ export type Section = {
 export type Assignment = {
   id: string;
   name: string;
-  players: Player[]
+  players: User[]
 };
 
 export type FactionRegistry = {
