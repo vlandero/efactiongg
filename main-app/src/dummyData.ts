@@ -42,4 +42,4 @@ export const dummyFactionRegistry: FactionRegistryFull = {
         { user: { id: "u10", username: "Jade", email: "jade@example.com" }, sectionPath: ["EU", "Gamma", "Team Hydra", "Roster Omega"], assignmentId: "main" },
         { user: { id: "u11", username: "Kyle", email: "kyle@example.com" }, sectionPath: ["EU", "Gamma", "Team Hydra", "Roster Omega"], assignmentId: "subs" }
     ]
-};
+}

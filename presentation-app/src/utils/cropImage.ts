@@ -9,7 +9,7 @@ export const getCroppedImg = (
         image.src = imageSrc;
 
         image.onload = () => {
-            const canvas = document.createElement("canvas");
+            const canvas = document.createElement("canvas")
             canvas.width = size;
             canvas.height = size;
             const ctx = canvas.getContext("2d");
