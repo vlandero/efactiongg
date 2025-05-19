@@ -1,12 +1,4 @@
 {
-    "projects": {
-        "main-app": {
-            "source": "main-app"
-        },
-        "presentation-app": {
-            "source": "presentation-app"
-        }
-    },
     "rewrites": [
         {
             "source": "/:path*",
