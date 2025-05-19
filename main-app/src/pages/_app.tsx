@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { TRPCProvider } from "../_trpc/provider";
 import { AppType } from "next/app";
+import { UserProvider } from "@/contexts/UserContext";
 
 export const metadata: Metadata = {
   title: "eFaction.gg",
@@ -11,7 +12,9 @@ export const metadata: Metadata = {
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <TRPCProvider>
-      <Component {...pageProps} />
+      <UserProvider>
+        <Component {...pageProps} />
+      </UserProvider>
     </TRPCProvider>
   );
 };

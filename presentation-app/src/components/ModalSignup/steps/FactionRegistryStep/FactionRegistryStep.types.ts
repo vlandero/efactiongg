@@ -8,14 +8,17 @@ export type TreeNode = {
 
 export type EditableItemProps = {
   value: string;
-  onChange: (newValue: string) => void;
+  onChange: (value: string) => void;
   onRemove: () => void;
-  onMoveUp?: () => void;
-  onMoveDown?: () => void;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
   canMoveUp?: boolean;
   canMoveDown?: boolean;
   isShaking?: boolean;
+  isTeam?: boolean; // NEW
+  onToggleTeam?: (checked: boolean) => void; // NEW
 };
+
 
 export type FactionRegistryStepProps = {
   factionRegistry: FactionRegistryDemo;

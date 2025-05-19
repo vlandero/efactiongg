@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Modal from "../Modal";
-import { Button } from "@/components/Button";
 import { ButtonWithTooltip } from "../ButtonWithTooltip";
 import { FactionRegistryDemo } from "@/models/FactionRegistryDemo.models";
 import { ModalSignupProps } from "./ModalSignup.types";
@@ -17,7 +16,7 @@ const networkFactionRegistry: FactionRegistryDemo = {
     { id: "1", name: "Region" },
     { id: "2", name: "Division" },
     { id: "3", name: "Team" },
-    { id: "4", name: "Roster" },
+    { id: "4", name: "Roster", isTeam:true },
   ],
   assignments: {
     "3": [{ id: "33", name: "Coach" }, { id: "313", name: "Scout" }, { id: "314", name: "Analyst" }],
@@ -31,7 +30,7 @@ const networkFactionRegistry: FactionRegistryDemo = {
 const orgFactionRegistry: FactionRegistryDemo = {
   sections: [
     { id: "2", name: "Guild" },
-    { id: "3", name: "Team" },
+    { id: "3", name: "Team", isTeam:true },
     { id: "4", name: "Roster" },
   ],
   assignments: {
@@ -45,7 +44,7 @@ const orgFactionRegistry: FactionRegistryDemo = {
 
 const smallFactionRegistry: FactionRegistryDemo = {
   sections: [
-    { id: "4", name: "Team" },
+    { id: "4", name: "Team", isTeam:true },
   ],
   assignments: {
     "4": [

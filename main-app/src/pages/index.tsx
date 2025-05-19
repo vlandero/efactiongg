@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { GetServerSideProps } from "next";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 interface HomePageProps {
   orgLogoUrl?: string;
@@ -25,7 +26,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
   };
 };
 
-export default function Home({
+export default function Login({
   orgLogoUrl,
   backgroundGradient,
   vertical,
@@ -34,7 +35,7 @@ export default function Home({
   darkCard,
 }: HomePageProps) {
   const [isLogin, setIsLogin] = useState(true);
-
+  const router = useRouter();
   const gradientStyle = {
     backgroundImage: `linear-gradient(${vertical ? "to bottom" : "to right"}, ${backgroundGradient.join(", ")})`,
   };
@@ -83,12 +84,15 @@ export default function Home({
             />
           )}
           <button
-            type="submit"
+            type="button"
             className={`w-full py-2 rounded font-medium ${
               darkCard
                 ? "bg-zinc-100 text-zinc-900 hover:bg-zinc-200"
                 : "bg-zinc-800 text-white hover:bg-zinc-700"
             }`}
+            onClick={() => {
+              router.replace('/home')
+            }}
           >
             {isLogin ? "Login" : "Register"}
           </button>

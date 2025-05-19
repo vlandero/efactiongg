@@ -1,8 +1,10 @@
-import { User } from "./Player.model";
+import { GameInDB } from "./GameInDB.model";
+import { User } from "./User.model";
 
 export type Section = {
   id: string;
   name: string;
+  game?: GameInDB;
 };
 
 export type Assignment = {

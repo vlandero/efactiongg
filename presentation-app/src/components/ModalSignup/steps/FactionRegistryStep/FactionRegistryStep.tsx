@@ -28,6 +28,8 @@ export const EditableItem = ({
   canMoveUp = false,
   canMoveDown = false,
   isShaking = false,
+  isTeam,
+  onToggleTeam
 }: EditableItemProps) => {
   return (
     // TODO: replace colors with global css variables
@@ -58,20 +60,29 @@ export const EditableItem = ({
         )}
       </div>
 
-      <input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="input-medium flex-1"
-        placeholder="Enter name..."
-      />
+      <div className="flex items-center gap-2 flex-wrap">
+        <input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="input-medium min-w-0 flex-1"
+          placeholder="Enter name..."
+        />
 
-      <button
-        onClick={onRemove}
-        className="reject-color"
-        title="Remove"
-      >
-        ✕
-      </button>
+        {onToggleTeam && (
+          <label className="flex items-center gap-1 text-xs text-zinc-400 whitespace-nowrap">
+            <input
+              type="checkbox"
+              checked={isTeam}
+              onChange={(e) => onToggleTeam(e.target.checked)}
+            />
+
+          </label>
+        )}
+
+        <button onClick={onRemove} className="reject-color" title="Remove">
+          ✕
+        </button>
+      </div>
     </div>
   );
 };
@@ -79,7 +90,7 @@ export const EditableItem = ({
 function generateTreeData(
   factionRegistry: FactionRegistryDemo,
   depth = 1,
-  playersPerAssignment = 3 // TODO BUG HERE??? IF WE PUT 10
+  playersPerAssignment = 3, // TODO BUG HERE??? IF WE PUT 10
 ): TreeNode[] {
   const { sections, assignments } = factionRegistry;
 
@@ -95,7 +106,7 @@ function generateTreeData(
         (assignment) => {
           return {
             id: `${sectionId}/${assignment.id}`,
-            name: assignment.name,
+            name: `${assignment.name}${assignment.isTeam ? " (team)" : ""}`,
             children:
               assignment.name.trim() !== ""
                 ? Array.from({ length: playersPerAssignment }, (_, j) => ({
@@ -109,7 +120,7 @@ function generateTreeData(
 
       return {
         id: sectionId,
-        name: sectionLabel,
+        name: `${sectionLabel}${section.isTeam ? " (team)" : ""}`,
         children: [
           ...assignmentsChildren,
           ...buildSection(level + 1, [...path, sectionLabel]),
@@ -130,6 +141,26 @@ export const FactionRegistryStep = ({
   nextStep,
 }: FactionRegistryStepProps) => {
   const [shakingIndex, setShakingIndex] = useState<ShakingIndex | null>(null);
+  const [team, setTeam] = useState(() => {
+    for (const section of factionRegistry.sections) {
+      if (section.isTeam) {
+        return {
+          sectionId: section.id
+        }
+      }
+      const assignments = factionRegistry.assignments[section.id] || [];
+      for (const assignment of assignments) {
+        if (assignment.isTeam) {
+          return {
+            sectionId: section.id,
+            assignmentId: assignment.id,
+          };
+        }
+      }
+    }
+    return null;
+  });
+
 
   const treeData = useMemo(
     () => generateTreeData(factionRegistry),
@@ -197,6 +228,7 @@ export const FactionRegistryStep = ({
   const removeItem = (params: RemoveItemParams) => {
     setFactionRegistry((prev) => {
       if (params.type === "section") {
+        const wasTeam = prev.sections.find(s => s.id === params.sectionId)?.isTeam;
         const sections = prev.sections.filter((s) => s.id !== params.sectionId);
 
         const updatedAssignments: Record<string, Assignment[]> = {};
@@ -206,21 +238,51 @@ export const FactionRegistryStep = ({
           }
         });
 
-        return { ...prev, sections, assignments: updatedAssignments };
+        const updatedSections = sections.map((s, i) => ({
+          ...s,
+          isTeam: wasTeam ? i === 0 : s.isTeam,
+        }));
+
+        return {
+          ...prev,
+          sections: updatedSections,
+          assignments: updatedAssignments,
+        };
+
       } else {
         const { sectionId, assignmentId } = params;
+        const wasTeam = prev.assignments[sectionId]?.find(a => a.id === assignmentId)?.isTeam;
+
+        const updatedList = prev.assignments[sectionId].filter(
+          (a) => a.id !== assignmentId
+        );
 
         const updatedAssignments = {
           ...prev.assignments,
-          [sectionId]: prev.assignments[sectionId].filter(
-            (a) => a.id !== assignmentId
-          ),
+          [sectionId]: updatedList.map((a, i) => ({
+            ...a,
+            isTeam: wasTeam ? i === 0 : a.isTeam,
+          })),
         };
 
-        return { ...prev, assignments: updatedAssignments };
+        const hasSections = prev.sections.length > 0;
+
+        const updatedSections = hasSections
+          ? prev.sections.map((s, i) => ({
+            ...s,
+            isTeam: false,
+          }))
+          : [];
+
+        return {
+          ...prev,
+          sections: updatedSections,
+          assignments: updatedAssignments,
+        };
       }
     });
   };
+
 
   const addItem = (params: AddItemParams) => {
     if (shakeFirstEmpty()) return;
@@ -228,9 +290,24 @@ export const FactionRegistryStep = ({
     setFactionRegistry((prev) => {
       if (params.type === "section") {
         if (prev.sections.length >= MAX_CATEGORIES) return prev;
+
+        const isFirstSection = prev.sections.length === 0;
+        const newSectionId = generateId();
+
+        if (isFirstSection) {
+          setTeam({ sectionId: newSectionId });
+        }
+
         return {
           ...prev,
-          sections: [...prev.sections, { id: generateId(), name: "" }],
+          sections: [
+            ...prev.sections,
+            {
+              id: newSectionId,
+              name: "",
+              isTeam: isFirstSection,
+            },
+          ],
         };
       } else {
         const sectionId = params.sectionId;
@@ -241,12 +318,20 @@ export const FactionRegistryStep = ({
           ...prev,
           assignments: {
             ...prev.assignments,
-            [sectionId]: [...list, { id: generateId(), name: "" }],
+            [sectionId]: [
+              ...list,
+              {
+                id: generateId(),
+                name: "",
+                isTeam: false,
+              },
+            ],
           },
         };
       }
     });
   };
+
 
   const shakeFirstEmpty = (): boolean => {
     const sectionIndex = factionRegistry.sections.findIndex(
@@ -298,6 +383,9 @@ export const FactionRegistryStep = ({
       <p className="text-light">
         Chill - you will be able to change the structure later.
       </p>
+      <p className="text-light">
+        The checkbox lets you mark one section or assignment as the <strong>Team</strong>. Basically, the players share the same "workspace" and are able to interact with each other on team chats if they are under the same team in the section tree.
+      </p>
 
       <div className="flex flex-wrap gap-4">
         <div className="w-full md:w-[48%]">
@@ -334,6 +422,39 @@ export const FactionRegistryStep = ({
                 canMoveUp={i > 0}
                 canMoveDown={i < factionRegistry.sections.length - 1}
                 isShaking={isShaking("section", i)}
+                isTeam={cat.isTeam}
+                onToggleTeam={(checked) => {
+                  if (team?.sectionId === cat.id && team?.assignmentId === undefined) return;
+                  if (!checked) return;
+
+                  setFactionRegistry((prev) => {
+                    const updatedSections = prev.sections.map((section) => {
+                      if (team?.assignmentId === undefined && section.id === team?.sectionId) {
+                        return { ...section, isTeam: false };
+                      }
+                      if (section.id === cat.id) {
+                        return { ...section, isTeam: true };
+                      }
+                      return section;
+                    });
+
+                    const updatedAssignments = { ...prev.assignments };
+                    if (team?.assignmentId !== undefined) {
+                      updatedAssignments[team.sectionId] = updatedAssignments[team.sectionId].map((asmt) =>
+                        asmt.id === team.assignmentId ? { ...asmt, isTeam: false } : asmt
+                      );
+                    }
+
+                    return {
+                      ...prev,
+                      sections: updatedSections,
+                      assignments: updatedAssignments,
+                    };
+                  });
+
+                  setTeam({ sectionId: cat.id });
+                }}
+
               />
             ))}
             {factionRegistry.sections.length < MAX_CATEGORIES && (
@@ -394,6 +515,46 @@ export const FactionRegistryStep = ({
                         i < factionRegistry.assignments[s.id].length - 1
                       }
                       isShaking={isShaking("assignment", i, s.id)}
+                      isTeam={team?.sectionId === s.id && team.assignmentId === a.id}
+                      onToggleTeam={(checked) => {
+                        if (!checked) return;
+                        if (team?.sectionId === s.id && team.assignmentId === a.id) return;
+
+                        setFactionRegistry((prev) => {
+                          const updatedSections = prev.sections.map((section) => {
+                            if (team?.assignmentId === undefined && team?.sectionId === section.id) {
+                              return { ...section, isTeam: false };
+                            }
+                            return section;
+                          });
+
+                          const updatedAssignments = { ...prev.assignments };
+
+                          if (team?.assignmentId !== undefined) {
+                            updatedAssignments[team.sectionId] = updatedAssignments[team.sectionId].map((asmt) => {
+                              if (asmt.id === team.assignmentId) {
+                                return { ...asmt, isTeam: false };
+                              }
+                              return asmt;
+                            });
+                          }
+
+                          updatedAssignments[s.id] = updatedAssignments[s.id].map((asmt) => {
+                            if (asmt.id === a.id) {
+                              return { ...asmt, isTeam: true };
+                            }
+                            return asmt;
+                          });
+
+                          return {
+                            ...prev,
+                            sections: updatedSections,
+                            assignments: updatedAssignments,
+                          };
+                        });
+
+                        setTeam({ sectionId: s.id, assignmentId: a.id });
+                      }}
                     />
                   ))}
                   {(factionRegistry.assignments[s.id] || []).length <
@@ -437,11 +598,7 @@ export const FactionRegistryStep = ({
         )}
       </Tree>
 
-      <p className="text-light mt-4 mb-2">
-        Continue to see a preview of your faction registry page!
-      </p>
-
-      <ModalNavButtons>
+      <ModalNavButtons className="mt-10">
         <Button className="w-[150px]" onClick={prevStep}>
           Back
         </Button>
