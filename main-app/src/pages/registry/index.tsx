@@ -25,7 +25,6 @@ const Registry: React.FC<Props> = ({ data = dummyFactionRegistry }) => {
     if (sectionIndex >= registry.sections.length) return [];
 
     const currentSection = registry.sections[sectionIndex];
-    const isLastSection = sectionIndex === registry.sections.length - 1;
 
     const currentKeys = Array.from(
       new Set(
@@ -37,8 +36,6 @@ const Registry: React.FC<Props> = ({ data = dummyFactionRegistry }) => {
           .filter((v): v is string => typeof v === "string")
       )
     );
-
-    console.log(currentKeys)
 
     return currentKeys.map((key) => {
       const newPath = [...path, key];

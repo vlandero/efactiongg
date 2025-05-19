@@ -23,8 +23,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const buffer = Buffer.from(base64, "base64");
-    const tmpDir = path.resolve(process.cwd(), "tmp");
-    // console.log(tmpDir)
+    // const tmpDir = path.resolve(process.cwd(), "tmp");
+    const tmpDir = '/tmp';
     await fs.mkdir(tmpDir, { recursive: true });
 
     const filePath = path.join(tmpDir, `${uuidv4()}-${filename}`);
