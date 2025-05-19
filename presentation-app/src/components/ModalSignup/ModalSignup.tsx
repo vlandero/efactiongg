@@ -9,6 +9,8 @@ import { PickName } from "./steps/PickName/PickName";
 import { PickPictures } from "./steps/PickPictures/PickPictures";
 import { PricingStep } from "./steps/PricingStep/PricingStep";
 import { pricingPlans } from "@/constants/pricing";
+import { CreateAccountStep } from "./steps/CreateAccountStep/CreateAccountStep";
+import { FinishStep } from "./steps/FinishStep/FinishStep";
 
 const networkFactionRegistry: FactionRegistryDemo = {
   sections: [
@@ -170,43 +172,10 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
           />
         )}
 
-        {step === 10 && (
-          <div>
-            <h3 className="text-xl mb-2 text-light">Create Your Account</h3>
-            <input
-              type="text"
-              placeholder="Username"
-              className="w-full p-2 mb-4 text-black rounded-md"
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full p-2 mb-4 text-black rounded-md"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full p-2 mb-4 text-black rounded-md"
-            />
-            <Button onClick={nextStep}>Next</Button>
-          </div>
+        {step === 6 && (
+          <CreateAccountStep nextStep={nextStep} prevStep={prevStep} factionUrl={subdomain} />
         )}
-        {step === 15 && (
-          <div>
-            <h3 className="text-xl mb-2 text-light">Congratulations!</h3>
-            <p>You've completed the setup. Click below to proceed.</p>
-            <Button onClick={onClose}>Go to Dashboard</Button>
-          </div>
-        )}
-        {step === 16 && (
-          <div>
-            <h3 className="text-xl mb-2 text-light">
-              Upload a Picture (Optional)
-            </h3>
-            <input type="file" className="w-full mb-4" />
-            <Button onClick={nextStep}>Next</Button>
-          </div>
-        )}
+        {step === 7 && (<FinishStep onClose={onClose} />)}
       </div>
     </Modal>
   );
