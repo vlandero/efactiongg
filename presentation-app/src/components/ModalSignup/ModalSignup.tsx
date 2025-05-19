@@ -11,8 +11,19 @@ import { PricingStep } from "./steps/PricingStep/PricingStep";
 import { pricingPlans } from "@/constants/pricing";
 
 const defaultFactionRegistry: FactionRegistryDemo = {
-  sections: [{ id: '1', name: "House" }, { id: '2', name: "Division" }, { id: '3', name: "Team" }, { id: '4', name: "Roster" }],
-  assignments: { "3": [{ id: '33', name: "Coach" }], "4": [{ id: '211', name: "Main" }, { id: '321312', name: "Subs" }] },
+  sections: [
+    { id: "1", name: "House" },
+    { id: "2", name: "Division" },
+    { id: "3", name: "Team" },
+    { id: "4", name: "Roster" },
+  ],
+  assignments: {
+    "3": [{ id: "33", name: "Coach" }],
+    "4": [
+      { id: "211", name: "Main" },
+      { id: "321312", name: "Subs" },
+    ],
+  },
 };
 
 export const ModalSignup = ({ onClose }: ModalSignupProps) => {
@@ -25,8 +36,11 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
   const [subdomain, setSubdomain] = useState("");
   const [logo, setLogo] = useState<string | null>(null);
   const [bg, setBg] = useState<string | null>(null);
-  const [selectedPricingPlanId, setSelectedPricingPlanId] = useState<string>('free');
-  const [selectedAddonsIds, setSelectedAddonsIds] = useState<string[]>(pricingPlans[selectedPricingPlanId].includedAddons);
+  const [selectedPricingPlanId, setSelectedPricingPlanId] =
+    useState<string>("free");
+  const [selectedAddonsIds, setSelectedAddonsIds] = useState<string[]>(
+    pricingPlans[selectedPricingPlanId].includedAddons
+  );
   const [factionRegistry, setFactionRegistry] = useState<FactionRegistryDemo>(
     defaultFactionRegistry
   );
@@ -65,8 +79,6 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
     );
   };
 
-
-
   return (
     <Modal
       onClose={() => {
@@ -74,13 +86,41 @@ export const ModalSignup = ({ onClose }: ModalSignupProps) => {
         setStep(1);
       }}
       title="Let's get started!"
-      extraClassName={step===4 ? "w-[1100px]" : ""}
+      extraClassName={step === 4 ? "w-[1100px]" : ""}
     >
       <div>
         {step === 1 && <Intro />}
-        {step === 2 && <PickName subdomain={subdomain} setSubdomain={setSubdomain} name={orgName} setName={setOrgName} nextStep={nextStep} prevStep={prevStep} />}
-        {step === 3 && <PickPictures logo={logo} setLogo={setLogo} bg={bg} setBg={setBg} nextStep={nextStep} prevStep={prevStep} />}
-        {step === 4 && <PricingStep selectedPlanId={selectedPricingPlanId} setSelectedPlanId={setSelectedPricingPlanId} setSelectedAddonsIds={setSelectedAddonsIds} selectedAddonsIds={selectedAddonsIds} nextStep={nextStep} prevStep={prevStep} />}
+        {step === 2 && (
+          <PickName
+            subdomain={subdomain}
+            setSubdomain={setSubdomain}
+            name={orgName}
+            setName={setOrgName}
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />
+        )}
+        {step === 3 && (
+          <PickPictures
+            logo={logo}
+            setLogo={setLogo}
+            bg={bg}
+            setBg={setBg}
+            nextStep={nextStep}
+            prevStep={prevStep}
+            orgName={orgName}
+          />
+        )}
+        {step === 4 && (
+          <PricingStep
+            selectedPlanId={selectedPricingPlanId}
+            setSelectedPlanId={setSelectedPricingPlanId}
+            setSelectedAddonsIds={setSelectedAddonsIds}
+            selectedAddonsIds={selectedAddonsIds}
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />
+        )}
         {step === 5 && (
           <FactionRegistryStep
             factionRegistry={factionRegistry}
