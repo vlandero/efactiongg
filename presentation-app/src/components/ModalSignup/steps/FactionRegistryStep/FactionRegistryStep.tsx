@@ -29,7 +29,7 @@ export const EditableItem = ({
   canMoveDown = false,
   isShaking = false,
   isTeam,
-  onToggleTeam
+  onToggleTeam,
 }: EditableItemProps) => {
   return (
     // TODO: replace colors with global css variables
@@ -75,7 +75,6 @@ export const EditableItem = ({
               checked={isTeam}
               onChange={(e) => onToggleTeam(e.target.checked)}
             />
-
           </label>
         )}
 
@@ -90,7 +89,7 @@ export const EditableItem = ({
 function generateTreeData(
   factionRegistry: FactionRegistryDemo,
   depth = 1,
-  playersPerAssignment = 3, // TODO BUG HERE??? IF WE PUT 10
+  playersPerAssignment = 3 // TODO BUG HERE??? IF WE PUT 10
 ): TreeNode[] {
   const { sections, assignments } = factionRegistry;
 
@@ -110,9 +109,9 @@ function generateTreeData(
             children:
               assignment.name.trim() !== ""
                 ? Array.from({ length: playersPerAssignment }, (_, j) => ({
-                  id: `${sectionId}/${assignment.id}/player-${j + 1}`,
-                  name: `Player ${j + 1}`,
-                }))
+                    id: `${sectionId}/${assignment.id}/player-${j + 1}`,
+                    name: `Player ${j + 1}`,
+                  }))
                 : [],
           };
         }
@@ -145,8 +144,8 @@ export const FactionRegistryStep = ({
     for (const section of factionRegistry.sections) {
       if (section.isTeam) {
         return {
-          sectionId: section.id
-        }
+          sectionId: section.id,
+        };
       }
       const assignments = factionRegistry.assignments[section.id] || [];
       for (const assignment of assignments) {
@@ -160,7 +159,6 @@ export const FactionRegistryStep = ({
     }
     return null;
   });
-
 
   const treeData = useMemo(
     () => generateTreeData(factionRegistry),
@@ -228,7 +226,9 @@ export const FactionRegistryStep = ({
   const removeItem = (params: RemoveItemParams) => {
     setFactionRegistry((prev) => {
       if (params.type === "section") {
-        const wasTeam = prev.sections.find(s => s.id === params.sectionId)?.isTeam;
+        const wasTeam = prev.sections.find(
+          (s) => s.id === params.sectionId
+        )?.isTeam;
         const sections = prev.sections.filter((s) => s.id !== params.sectionId);
 
         const updatedAssignments: Record<string, Assignment[]> = {};
@@ -248,10 +248,11 @@ export const FactionRegistryStep = ({
           sections: updatedSections,
           assignments: updatedAssignments,
         };
-
       } else {
         const { sectionId, assignmentId } = params;
-        const wasTeam = prev.assignments[sectionId]?.find(a => a.id === assignmentId)?.isTeam;
+        const wasTeam = prev.assignments[sectionId]?.find(
+          (a) => a.id === assignmentId
+        )?.isTeam;
 
         const updatedList = prev.assignments[sectionId].filter(
           (a) => a.id !== assignmentId
@@ -269,9 +270,9 @@ export const FactionRegistryStep = ({
 
         const updatedSections = hasSections
           ? prev.sections.map((s, i) => ({
-            ...s,
-            isTeam: false,
-          }))
+              ...s,
+              isTeam: false,
+            }))
           : [];
 
         return {
@@ -282,7 +283,6 @@ export const FactionRegistryStep = ({
       }
     });
   };
-
 
   const addItem = (params: AddItemParams) => {
     if (shakeFirstEmpty()) return;
@@ -332,7 +332,6 @@ export const FactionRegistryStep = ({
     });
   };
 
-
   const shakeFirstEmpty = (): boolean => {
     const sectionIndex = factionRegistry.sections.findIndex(
       (s) => s.name.trim() === ""
@@ -375,6 +374,9 @@ export const FactionRegistryStep = ({
   return (
     <div className="flex flex-col gap-[10px]">
       <h3 className="text-xl text-light">Faction Registry</h3>
+      <span className="text-base text-zinc-400 italic">
+        If you are too lazy to read this now, just continue.
+      </span>
       <p className="text-light">
         Set up how you want players to join and be organized in your faction.
       </p>
@@ -382,7 +384,10 @@ export const FactionRegistryStep = ({
         Chill - you will be able to change the structure later.
       </p>
       <p className="text-light">
-        The checkbox lets you mark one section or assignment as the <strong>Team</strong>. Basically, the players share the same "workspace" and are able to interact with each other on team chats if they are under the same team in the section tree.
+        The checkbox lets you mark one section or assignment as the{" "}
+        <strong>Team</strong>. Basically, the players share the same "workspace"
+        and are able to interact with each other on team chats if they are under
+        the same team in the section tree.
       </p>
 
       <div className="flex flex-wrap gap-4">
@@ -422,12 +427,19 @@ export const FactionRegistryStep = ({
                 isShaking={isShaking("section", i)}
                 isTeam={cat.isTeam}
                 onToggleTeam={(checked) => {
-                  if (team?.sectionId === cat.id && team?.assignmentId === undefined) return;
+                  if (
+                    team?.sectionId === cat.id &&
+                    team?.assignmentId === undefined
+                  )
+                    return;
                   if (!checked) return;
 
                   setFactionRegistry((prev) => {
                     const updatedSections = prev.sections.map((section) => {
-                      if (team?.assignmentId === undefined && section.id === team?.sectionId) {
+                      if (
+                        team?.assignmentId === undefined &&
+                        section.id === team?.sectionId
+                      ) {
                         return { ...section, isTeam: false };
                       }
                       if (section.id === cat.id) {
@@ -438,8 +450,12 @@ export const FactionRegistryStep = ({
 
                     const updatedAssignments = { ...prev.assignments };
                     if (team?.assignmentId !== undefined) {
-                      updatedAssignments[team.sectionId] = updatedAssignments[team.sectionId].map((asmt) =>
-                        asmt.id === team.assignmentId ? { ...asmt, isTeam: false } : asmt
+                      updatedAssignments[team.sectionId] = updatedAssignments[
+                        team.sectionId
+                      ].map((asmt) =>
+                        asmt.id === team.assignmentId
+                          ? { ...asmt, isTeam: false }
+                          : asmt
                       );
                     }
 
@@ -452,7 +468,6 @@ export const FactionRegistryStep = ({
 
                   setTeam({ sectionId: cat.id });
                 }}
-
               />
             ))}
             {factionRegistry.sections.length < MAX_CATEGORIES && (
@@ -513,31 +528,45 @@ export const FactionRegistryStep = ({
                         i < factionRegistry.assignments[s.id].length - 1
                       }
                       isShaking={isShaking("assignment", i, s.id)}
-                      isTeam={team?.sectionId === s.id && team.assignmentId === a.id}
+                      isTeam={
+                        team?.sectionId === s.id && team.assignmentId === a.id
+                      }
                       onToggleTeam={(checked) => {
                         if (!checked) return;
-                        if (team?.sectionId === s.id && team.assignmentId === a.id) return;
+                        if (
+                          team?.sectionId === s.id &&
+                          team.assignmentId === a.id
+                        )
+                          return;
 
                         setFactionRegistry((prev) => {
-                          const updatedSections = prev.sections.map((section) => {
-                            if (team?.assignmentId === undefined && team?.sectionId === section.id) {
-                              return { ...section, isTeam: false };
+                          const updatedSections = prev.sections.map(
+                            (section) => {
+                              if (
+                                team?.assignmentId === undefined &&
+                                team?.sectionId === section.id
+                              ) {
+                                return { ...section, isTeam: false };
+                              }
+                              return section;
                             }
-                            return section;
-                          });
+                          );
 
                           const updatedAssignments = { ...prev.assignments };
 
                           if (team?.assignmentId !== undefined) {
-                            updatedAssignments[team.sectionId] = updatedAssignments[team.sectionId].map((asmt) => {
-                              if (asmt.id === team.assignmentId) {
-                                return { ...asmt, isTeam: false };
-                              }
-                              return asmt;
-                            });
+                            updatedAssignments[team.sectionId] =
+                              updatedAssignments[team.sectionId].map((asmt) => {
+                                if (asmt.id === team.assignmentId) {
+                                  return { ...asmt, isTeam: false };
+                                }
+                                return asmt;
+                              });
                           }
 
-                          updatedAssignments[s.id] = updatedAssignments[s.id].map((asmt) => {
+                          updatedAssignments[s.id] = updatedAssignments[
+                            s.id
+                          ].map((asmt) => {
                             if (asmt.id === a.id) {
                               return { ...asmt, isTeam: true };
                             }

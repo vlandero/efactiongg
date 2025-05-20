@@ -23,18 +23,26 @@ export default function Home() {
     <div className="scroll-smooth">
       <Logo />
 
-      <section className="h-[50vh] bg-primary-gradient flex flex-row justify-center">
-        <div className="h-full w-[90%] max-w-[1700px] text-white grid grid-cols-1 md:grid-cols-2 text-center px-4 gap-10 py-16">
-          <div className="flex items-center justify-center rounded-2xl glass-panel flex-col p-6 shadow-md">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">
-              All your teams, one place.
-            </h1>
-            <p className="text-lg max-w-md mb-6">
-              Manage your entire organization from a single dashboard—no chaos,
-              no confusion.
-            </p>
+      <section className="md:min-h-[50vh] lg:h-[50vh] bg-primary-gradient flex flex-row justify-center">
+        <div className="h-full w-[90%] max-w-[1700px] text-white grid grid-cols-1 md:grid-cols-3 text-center px-4 gap-10 py-16">
+          <div className="md:col-span-2 flex items-center justify-center rounded-2xl glass-panel flex-col md:flex-row p-6 shadow-md">
+            <div className="md:w-1/2 text-left md:pr-6">
+              <h1 className="text-3xl md:text-4xl font-bold mb-4">
+                All your teams, one place.
+              </h1>
+              <p className="text-lg max-w-md mb-6">
+                Manage your entire organization from a single dashboard—no
+                chaos, no confusion.
+              </p>
+            </div>
+            <img
+              src="/registry.png"
+              width={400}
+              className="md:w-1/2 mt-6 md:mt-0 transition-transform duration-500 hover:scale-180 hover:rotate-10 hover:drop-shadow-xl rounded-2xl"
+            />
           </div>
-          <div className="flex items-center justify-center glass-panel rounded-2xl flex-col p-6 shadow-md">
+
+          <div className="md:col-span-1 flex items-center justify-center glass-panel rounded-2xl flex-col p-6 shadow-md">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               One platform. Endless control.
             </h2>
@@ -49,15 +57,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="h-[50vh] secondary-gradient flex flex-row justify-center">
-        <div className="h-full w-[90%] max-w-[2500px] text-white grid grid-cols-1 md:grid-cols-5 text-center px-4 py-16 gap-8">
-          <div className="md:col-span-3 flex flex-col glass-panel items-center justify-center p-6 rounded-2xl shadow-md bg-white/5">
-            <h2 className="text-2xl font-bold mb-2">Your Own Analyst</h2>
-            <p className="text-lg font-medium max-w-md text-zinc-100">
-              Track performance trends, identify weaknesses, and get smarter
-              with every match. Get post-match reports automatically and
-              data-driven insights to improve faster.
-            </p>
+      <section className="md:min-h-[50vh] lg:h-[50vh] secondary-gradient flex flex-row justify-center">
+        <div className="w-[90%] max-w-[2500px] text-white grid grid-cols-1 md:grid-cols-5 text-center px-4 py-16 gap-8">
+          <div className="md:col-span-3 flex flex-col-reverse glass-panel items-center justify-center p-6 rounded-2xl shadow-md bg-white/5 gap-10 md:flex-row">
+            <img
+              src="/analysis.png"
+              width={400}
+              className="md:w-1/2 mt-6 md:mt-0 transition-transform duration-500 hover:scale-200 hover:-rotate-12 hover:drop-shadow-xl  rounded-2xl"
+            />
+            <div>
+              <h2 className="text-2xl font-bold mb-2">Your Own Analyst</h2>
+              <p className="text-lg font-medium max-w-md text-zinc-100">
+                Track performance trends, identify weaknesses, and get smarter
+                with every match. Get post-match reports automatically and
+                data-driven insights to improve faster.
+              </p>
+            </div>
           </div>
           <div className="md:col-span-1 flex flex-col glass-panel items-center justify-center p-6 rounded-2xl shadow-md bg-white/5">
             <h2 className="text-2xl font-bold mb-2">Plug & Play Growth</h2>
@@ -84,14 +99,12 @@ export default function Home() {
           {Object.values(pricingPlans).map((plan) => (
             <div
               key={plan.id}
-              className="border border-zinc-700 rounded-3xl p-8 w-[300px] sm:w-[340px] md:w-[380px] shadow-xl hover:shadow-2xl transition-all duration-300 bg-zinc-800"
+              className="border border-zinc-700 rounded-3xl p-8 w-[300px] sm:w-[340px] md:w-[380px] shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:rotate-3 bg-zinc-800"
             >
               <h3 className="text-2xl font-semibold mb-2 text-white">
                 {plan.name}
               </h3>
-              <p className="text-3xl font-bold text-blue-400 mb-4">
-                {plan.price}
-              </p>
+              <p className="text-3xl font-bold text-light mb-4">{plan.price}</p>
               <ul className="text-base text-zinc-300 space-y-3">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-center gap-2">

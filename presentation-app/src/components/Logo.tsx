@@ -9,7 +9,10 @@ export default function Logo() {
   };
 
   return (
-    <div className="fixed top-4 left-4 z-50" style={{ perspective: "1000px" }}>
+    <div
+      className="fixed bottom-4 left-4 z-50"
+      style={{ perspective: "1000px" }}
+    >
       <img
         src="/logo.png"
         alt="Logo"
