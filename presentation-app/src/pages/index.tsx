@@ -1,9 +1,12 @@
 import { Button } from "@/components/Button";
 import { ModalSignup } from "@/components/ModalSignup/ModalSignup";
 import { useEffect, useState } from "react";
+import { Check } from "lucide-react";
+import { pricingPlans } from "@/constants/pricing";
 
 export default function Home() {
   const [modalSignupOpen, setModalSignupOpen] = useState(false);
+
   useEffect(() => {
     if (modalSignupOpen) {
       document.body.style.overflow = 'hidden';
@@ -14,36 +17,73 @@ export default function Home() {
       document.body.style.overflow = '';
     };
   }, [modalSignupOpen]);
+
   return (
     <div className="scroll-smooth">
-      <section className="h-[50vh] bg-primary text-white flex items-center justify-center flex-col text-center px-4">
-        <h1 className="text-4xl font-bold mb-4">All your teams, one place.</h1>
-        <p className="text-lg max-w-xl mb-6">
-          Manage your entire organization from a single dashboard—no chaos, no
-          confusion.
-        </p>
-        <Button onClick={() => setModalSignupOpen(true)}>
-          Get Started for free!
-        </Button>
+      {/* Section 1 - 2 columns */}
+      <section className="h-[50vh] bg-primary text-white grid grid-cols-1 md:grid-cols-2 text-center px-4 gap-5">
+        <div className="flex items-center justify-center flex-col p-6 shadow-md">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">All your teams, one place.</h1>
+          <p className="text-lg max-w-md mb-6">
+            Manage your entire organization from a single dashboard—no chaos, no confusion.
+          </p>
+          <Button onClick={() => setModalSignupOpen(true)}>Get Started for free!</Button>
+        </div>
+        <div className="flex items-center justify-center flex-col p-6 shadow-md">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">One platform. Endless control.</h2>
+          <p className="text-lg max-w-md mb-6">
+            From rosters to results, keep everything in sync with powerful team tools.
+          </p>
+        </div>
       </section>
 
-      <section className="h-[50vh] secondary-gradient text-black flex items-center justify-center flex-col text-center px-4">
-        <h2 className="text-4xl font-bold mb-4">Built for growth.</h2>
-        <p className="text-lg max-w-xl mb-6">
-          Whether you’re a small squad or a multi-game empire, scale easily with
-          tools made to grow with you.
-        </p>
+      {/* Section 2 - Custom 3/5 + 1/5 + 1/5 layout */}
+      <section className="min-h-[50vh] secondary-gradient text-black grid grid-cols-1 md:grid-cols-5 text-center px-4 py-16 gap-8">
+        <div className="md:col-span-3 flex flex-col items-center justify-center p-6 rounded-2xl shadow-md">
+          <h2 className="text-2xl font-bold mb-2">Your Own Analyst</h2>
+          <p className="text-lg max-w-md">
+            Track performance trends, identify weaknesses, and get smarter with every match.
+            Get post-match reports automatically and data-driven insights to improve faster.
+          </p>
+        </div>
+        <div className="md:col-span-1 flex flex-col items-center justify-center p-6 rounded-2xl shadow-md">
+          <h2 className="text-2xl font-bold mb-2">Plug & Play Growth</h2>
+          <p className="text-lg">
+            Expand your team structure or game coverage effortlessly as you scale.
+          </p>
+        </div>
+        <div className="md:col-span-1 flex flex-col items-center justify-center p-6 rounded-2xl shadow-md">
+          <h2 className="text-2xl font-bold mb-2">Effortless Collaboration</h2>
+          <p className="text-lg">
+            Bring coaches, players, and staff together in a seamless and transparent workspace.
+          </p>
+        </div>
+      </section>
+      {/* Section 3 - Pricing */}
+      <section className="h-[50vh] bg-zinc-900 text-white px-6 py-12 overflow-auto">
+        <h2 className="text-3xl font-bold text-center mb-10">Pricing Plans</h2>
+        <div className="flex flex-wrap justify-center gap-8">
+          {Object.values(pricingPlans).map((plan) => (
+            <div
+              key={plan.id}
+              className="border border-zinc-700 rounded-3xl p-8 w-[300px] sm:w-[340px] md:w-[380px] shadow-xl hover:shadow-2xl transition-all duration-300 bg-zinc-800"
+            >
+              <h3 className="text-2xl font-semibold mb-2 text-white">{plan.name}</h3>
+              <p className="text-3xl font-bold text-blue-400 mb-4">{plan.price}</p>
+              <ul className="text-base text-zinc-300 space-y-3">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-center gap-2">
+                    <Check className="text-green-400 w-5 h-5" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </section>
 
-      <section className="h-[50vh] bg-primary text-white flex items-center justify-center flex-col text-center px-4">
-        <h2 className="text-4xl font-bold mb-4">
-          Let players find their tribe.
-        </h2>
-        <p className="text-lg max-w-xl mb-6">
-          Create a public space where gamers can join, connect, and build their
-          own teams inside your world.
-        </p>
-      </section>
+
 
       {modalSignupOpen && (
         <ModalSignup onClose={() => setModalSignupOpen(false)} />

@@ -6,6 +6,7 @@ import { pricingAddons, pricingPlans } from "@/constants/pricing";
 import { ModalNavButtons } from "../../components/ModalNavButtons";
 import { Button } from "@/components/Button";
 
+
 export const PricingStep = ({ selectedPlanId, setSelectedPlanId, selectedAddonsIds, setSelectedAddonsIds, prevStep, nextStep }: PickNameParams) => {
 
     const selectedPlan = useMemo(() => pricingPlans[selectedPlanId], [selectedPlanId]);
