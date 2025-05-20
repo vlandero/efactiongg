@@ -64,13 +64,6 @@ button {
   text-decoration: underline;
 }
 
-
-.secondary-gradient {
-  background: #136a8a;
-  background: -webkit-linear-gradient(to right, #267871, #136a8a);
-  background: linear-gradient(to right, #267871, #136a8a);
-}
-
 .crimson-gradient {
   background: #2b0000;
   background: -webkit-linear-gradient(to right, #800000, #2b0000);
@@ -153,8 +146,7 @@ button {
   scrollbar-color: #19413d transparent;
 }
 
-
-[role="tree"]>div {
+[role="tree"] > div {
   height: inherit !important;
 }
 

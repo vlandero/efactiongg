@@ -70,11 +70,18 @@ button {
   text-decoration: underline;
 }
 
+.bg-primary-gradient {
+  background: linear-gradient(270deg, #000000, #12151a, #081414);
+  background-size: 600% 600%;
+  animation: gradientShift 20s ease infinite;
+}
 
 .secondary-gradient {
   background: #136a8a;
-  background: -webkit-linear-gradient(to right, #267871, #136a8a);
-  background: linear-gradient(to right, #267871, #136a8a);
+  background: -webkit-linear-gradient(270deg, #267871, #136a8a, #1d4e89);
+  background: linear-gradient(270deg, #267871, #136a8a, #1d4e89);
+  background-size: 600% 600%;
+  animation: gradientShift 20s ease infinite;
 }
 
 .crimson-gradient {
@@ -159,11 +166,51 @@ button {
   scrollbar-color: #19413d transparent;
 }
 
-
-[role="tree"]>div {
+[role="tree"] > div {
   height: inherit !important;
 }
 
 [role="tree"] {
   height: inherit !important;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient-bg {
+  background: linear-gradient(270deg, #136a8a, #267871, #1a5e7a, #136a8a);
+  background-size: 600% 600%;
+  animation: gradientShift 20s ease infinite;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes spinY {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.spin-y-once {
+  animation: spinY 1s ease-in-out;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }
