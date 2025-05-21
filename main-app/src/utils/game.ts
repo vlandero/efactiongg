@@ -16,7 +16,8 @@ export function parseGame(raw: any): Game {
 
     const players: Player[] = statsJson.map((p: any) => ({
         name: p.RIOT_ID_GAME_NAME || "Unknown",
-        champion: p.SKIN ? getChampionNameFromSkin(p.SKIN) : "Unknown"
+        champion: p.SKIN ? getChampionNameFromSkin(p.SKIN) : "Unknown",
+        won: p.WIN !== 'FAIL'
     }));
 
     const blue: Team = { players: players.slice(0, 5) };
@@ -26,7 +27,7 @@ export function parseGame(raw: any): Game {
         id: uuidv4(),
         blue,
         red,
-        blueWon: true,
+        blueWon: blue.players[0].won,
         gameLength: `${Math.floor(gameLength / 60000)}:${String(Math.floor((gameLength % 60000) / 1000)).padStart(2, '0')}`
     };
 }

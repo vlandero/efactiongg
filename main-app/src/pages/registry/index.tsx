@@ -1,6 +1,6 @@
 import { dummyFactionRegistry } from "@/dummyData";
 import { FactionRegistryFull } from "@/models/DB/FactionRegistry.model";
-import React, { JSX } from "react";
+import React, { JSX, useMemo } from "react";
 
 type Props = {
   data?: FactionRegistryFull;
@@ -10,13 +10,20 @@ const Registry: React.FC<Props> = ({ data = dummyFactionRegistry }) => {
   const registry = data.registry;
   const players = data.players;
 
-  const getPlayers = (sectionPath: string[], assignmentId: string) => {
-    return players.filter(
-      (p) =>
-        JSON.stringify(p.sectionPath) === JSON.stringify(sectionPath) &&
-        p.assignmentId === assignmentId
-    );
-  };
+  const playerLookup = useMemo(() => {
+    const lookup: Record<string, Record<string, typeof players>> = {};
+
+    players.forEach(player => {
+      const pathKey = player.sectionPath.join('|');
+      if (!lookup[pathKey]) lookup[pathKey] = {};
+      if (!lookup[pathKey][player.assignmentId]) {
+        lookup[pathKey][player.assignmentId] = [];
+      }
+      lookup[pathKey][player.assignmentId].push(player);
+    });
+
+    return lookup;
+  }, [players]);
 
   const renderSectionLevel = (
     sectionIndex: number,
@@ -25,6 +32,7 @@ const Registry: React.FC<Props> = ({ data = dummyFactionRegistry }) => {
     if (sectionIndex >= registry.sections.length) return [];
 
     const currentSection = registry.sections[sectionIndex];
+    const assignments = registry.assignments[currentSection.id] || [];
 
     const currentKeys = Array.from(
       new Set(
@@ -37,28 +45,27 @@ const Registry: React.FC<Props> = ({ data = dummyFactionRegistry }) => {
 
     return currentKeys.map((key) => {
       const newPath = [...path, key];
+      const pathKey = newPath.join('|');
 
       return (
         <div
-          key={key}
-          className={`m-2 min-w-[280px] flex-1 ${
-            sectionIndex === 0
-              ? "rounded-2xl bg-white/5 backdrop-blur-lg p-6 shadow-md border border-white/10 hover:shadow-lg transition-shadow"
-              : ""
-          }`}
+          key={pathKey}
+          className={`m-2 min-w-[280px] flex-1 ${sectionIndex === 0
+            ? "rounded-2xl bg-white/5 backdrop-blur-lg p-6 shadow-md border border-white/10 hover:shadow-lg transition-shadow"
+            : ""
+            }`}
         >
           <h3
-            className={`mb-3 font-bold text-primary text-center ${
-              ["text-3xl", "text-2xl", "text-xl", "text-lg", "text-base"][
-                sectionIndex
-              ] || "text-base"
-            }`}
+            className={`mb-3 font-bold text-primary text-center ${["text-3xl", "text-2xl", "text-xl", "text-lg", "text-base"][
+              sectionIndex
+            ] || "text-base"
+              }`}
           >
             {key}
           </h3>
 
-          {registry.assignments[currentSection.id]?.map((assignment) => {
-            const assignedPlayers = getPlayers(newPath, assignment.id);
+          {assignments.map((assignment) => {
+            const assignedPlayers = playerLookup[pathKey]?.[assignment.id] || [];
             if (assignedPlayers.length === 0) return null;
 
             return (
@@ -69,11 +76,11 @@ const Registry: React.FC<Props> = ({ data = dummyFactionRegistry }) => {
                 <p className="text-lg font-bold text-accent mb-2 text-center">
                   {assignment.name}
                 </p>
-                <ul className="space-y-1 text-center">
+                <ul className="space-y-1 text-center gap-3 flex flex-col">
                   {assignedPlayers.map((p) => (
                     <li
                       key={p.user.id}
-                      className="text-sm text-white/90 bg-zinc-700/50 py-1 px-2 rounded-md inline-block cursor-pointer transition-all duration-300 hover:bg-white/10 hover:text-accent hover:scale-105"
+                      className="text-sm text-white/90 bg-zinc-700/50 py-1 px-2 rounded-md w-[50%] m-auto cursor-pointer transition-all duration-300 hover:bg-white/10 hover:text-accent hover:scale-105"
                     >
                       {p.user.username}
                     </li>

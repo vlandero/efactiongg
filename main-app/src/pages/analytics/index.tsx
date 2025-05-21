@@ -131,7 +131,6 @@ export default function AnalyticsPage({ categorizedGames }: { categorizedGames: 
     const [newGame, setNewGame] = useState<Game | null>(null);
     const [categoryInput, setCategoryInput] = useState("");
 
-    const parseRofl = trpc.parseRofl.parse.useMutation();
     const [categories, setCategories] = useState<Record<string, boolean>>(
         Object.fromEntries(Object.keys(categorizedGames).map((key) => [key, true]))
     );
@@ -155,8 +154,8 @@ export default function AnalyticsPage({ categorizedGames }: { categorizedGames: 
             body: JSON.stringify({ base64, filename: file.name }),
         });
 
-        const resJson = await res.json();
-        const parsed = await parseRofl.mutateAsync({ path: resJson.path });
+        const parsed = await res.json();
+        console.log(parsed)
 
         const game = parseGame(parsed);
         setNewGame(game);
@@ -178,7 +177,6 @@ export default function AnalyticsPage({ categorizedGames }: { categorizedGames: 
     };
 
     const removeCategory = (cat: string) => {
-        // console.log(categorizedGames)
         if (categorizedGames[cat]?.length > 0) {
             alert(`Cannot remove "${cat}" because it still contains games.`);
             return;
@@ -356,12 +354,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
                 players: Array.from({ length: 5 }).map((_, j) => ({
                     name: `${cat}-Player${j + 1}`,
                     champion: "Ahri",
+                    won: true
                 })),
             },
             red: {
                 players: Array.from({ length: 5 }).map((_, j) => ({
                     name: `${cat}-Enemy${j + 1}`,
                     champion: "Zed",
+                    won: false
                 })),
             },
         }));

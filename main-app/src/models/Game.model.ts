@@ -1,6 +1,7 @@
 export type Player = {
     name: string;
     champion: string;
+    won: boolean
 };
 
 export type Team = {

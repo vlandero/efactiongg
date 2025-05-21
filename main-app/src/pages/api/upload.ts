@@ -1,7 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs/promises";
-import path from "path";
-import { v4 as uuidv4 } from "uuid";
+import { ROFLReader } from "rofl-parser.js";
 
 export const config = {
   api: {
@@ -23,16 +21,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const buffer = Buffer.from(base64, "base64");
-    const tmpDir = path.resolve(process.cwd(), "tmp");
-    // console.log(tmpDir)
-    await fs.mkdir(tmpDir, { recursive: true });
 
-    const filePath = path.join(tmpDir, `${uuidv4()}-${filename}`);
-    await fs.writeFile(filePath, buffer);
+    const reader = new ROFLReader(buffer);
+    const metadata = reader.getMetadata();
 
-    return res.status(200).json({ path: filePath });
+    return res.status(200).json({ metadata });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "Server error" });
+    console.error("ROFL parsing error:", err);
+    return res.status(500).json({ 
+      error: "Failed to parse replay",
+      details: err instanceof Error ? err.message : String(err)
+    });
   }
 }
