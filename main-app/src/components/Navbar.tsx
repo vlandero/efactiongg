@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { useUser } from '@/contexts/UserContext';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import { useUser } from "@/contexts/UserContext";
 
 export default function Navbar() {
   const { user } = useUser();
@@ -12,10 +12,10 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { label: 'Player Registry', href: '/registry' },
-    { label: 'Your Team', href: '/dashboard/team' },
-    { label: 'Team Analysis', href: '/analytics' },
-    { label: 'Forum', href: '/dashboard/forum' },
+    { label: "Player Registry", href: "/registry" },
+    { label: "Your Team", href: "/my-team" },
+    { label: "Team Analysis", href: "/analytics" },
+    { label: "Forum", href: "/dashboard/forum" },
   ];
 
   return (
@@ -23,7 +23,10 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-6">
-            <Link href="/home" className="text-lg font-bold text-white hover:text-gray-300">
+            <Link
+              href="/home"
+              className="text-lg font-bold text-white hover:text-gray-300"
+            >
               Cyberpunk eSports
             </Link>
             <div className="hidden md:flex space-x-4">
@@ -32,7 +35,9 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   className={`text-sm hover:text-gray-300 ${
-                    router.pathname === item.href ? 'text-gray-300 underline' : ''
+                    router.pathname === item.href
+                      ? "text-gray-300 underline"
+                      : ""
                   }`}
                 >
                   {item.label}
@@ -54,7 +59,9 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-4">
             {user ? (
               <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-300">Hi, {user.username}</span>
+                <span className="text-sm text-gray-300">
+                  Hi, {user.username}
+                </span>
               </div>
             ) : (
               <Link href="/" className="text-sm text-gray-400 hover:text-white">
@@ -71,7 +78,9 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={`block py-2 px-4 rounded-md text-sm bg-neutral-800 hover:bg-neutral-700 ${
-                  router.pathname === item.href ? 'text-white font-semibold' : 'text-gray-300'
+                  router.pathname === item.href
+                    ? "text-white font-semibold"
+                    : "text-gray-300"
                 }`}
               >
                 {item.label}
@@ -79,9 +88,14 @@ export default function Navbar() {
             ))}
             <div className="border-t border-neutral-700 pt-2">
               {user ? (
-                <div className="px-4 text-sm text-gray-400">Hi, {user.username}</div>
+                <div className="px-4 text-sm text-gray-400">
+                  Hi, {user.username}
+                </div>
               ) : (
-                <Link href="/" className="block px-4 py-2 text-sm text-gray-400 hover:text-white">
+                <Link
+                  href="/"
+                  className="block px-4 py-2 text-sm text-gray-400 hover:text-white"
+                >
                   Log In
                 </Link>
               )}

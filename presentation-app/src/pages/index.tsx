@@ -37,8 +37,8 @@ export default function Home() {
     <div className="scroll-smooth">
       <Logo />
 
-      <section className="md:min-h-[50vh] lg:h-[50vh] bg-primary-gradient flex flex-row justify-center">
-        <div className="h-full w-[90%] max-w-[1700px] text-white grid grid-cols-1 md:grid-cols-3 text-center px-4 gap-10 py-16">
+      <section className="min-h-[50vh] bg-primary-gradient flex flex-row justify-center">
+        <div className="min-h-[100%] w-[90%] max-w-[1700px] text-white grid grid-cols-1 md:grid-cols-3 text-center px-4 gap-10 py-16">
           <motion.div
             custom={0}
             initial="hidden"
@@ -85,8 +85,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="md:min-h-[50vh] lg:h-[50vh] secondary-gradient flex flex-row justify-center">
-        <div className="w-[90%] max-w-[2500px] text-white grid grid-cols-1 md:grid-cols-5 text-center px-4 py-16 gap-3 md:gap-8">
+      <section className="min-h-[50vh] secondary-gradient flex flex-row justify-center">
+        <div className="w-[90%] min-h-[100%] max-w-[2400px] text-white grid grid-cols-1 md:grid-cols-5 text-center px-4 py-16 gap-3 md:gap-8">
           <motion.div
             custom={0}
             initial="hidden"

@@ -20,15 +20,14 @@ export default function Home() {
     <div className="min-h-screen bg-neutral-900 text-white p-6">
       <div className="m-auto mt-20 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-[90%] max-w-[1300px]">
         <div
-          onClick={() => router.push('/registry')}
+          onClick={() => router.push("/registry")}
           className="bg-neutral-800 hover:bg-neutral-700 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-200 cursor-pointer"
         >
           <h2 className="text-xl font-semibold mb-2">Total Players</h2>
           <p className="text-4xl font-bold text-primary">128</p>
         </div>
 
-
-        <section className="bg-neutral-800 p-6 rounded-2xl shadow-lg md:col-span-2">
+        <section className="bg-neutral-800 hover:bg-neutral-600 transition-all duration-200 p-6 rounded-2xl shadow-lg md:col-span-2 cursor-pointer">
           <h2 className="text-xl font-semibold mb-4">Your Team</h2>
           <ul className="space-y-2">
             <li className="bg-neutral-700 p-3 rounded-lg">
@@ -52,7 +51,7 @@ export default function Home() {
         </section>
 
         <div
-          onClick={() => router.push('/analytics')}
+          onClick={() => router.push("/analytics")}
           className="bg-neutral-800 p-6 rounded-2xl shadow-lg hover:shadow-[0_0_25px_rgba(255,255,255,0.15)] hover:bg-neutral-600 cursor-pointer lg:col-span-3 md:col-span-2 transition-all duration-300 ease-in-out"
         >
           <h2 className="text-xl font-semibold mb-4">Team Analytics</h2>
@@ -61,8 +60,6 @@ export default function Home() {
           </div>
         </div>
 
-
-        {/* Forum */}
         <section className="bg-neutral-800 p-6 rounded-2xl shadow-lg md:col-span-2">
           <h2 className="text-xl font-semibold mb-2">Forum</h2>
           <ul className="space-y-2">

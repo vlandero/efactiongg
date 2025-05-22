@@ -1,6 +1,6 @@
 import { dummyFactionRegistry } from "@/dummyData";
 import { FactionRegistryFull } from "@/models/DB/FactionRegistry.model";
-import React, { JSX, useMemo } from "react";
+import React, { JSX, useEffect, useMemo } from "react";
 
 type Props = {
   data?: FactionRegistryFull;
@@ -10,11 +10,15 @@ const Registry: React.FC<Props> = ({ data = dummyFactionRegistry }) => {
   const registry = data.registry;
   const players = data.players;
 
+  useEffect(() => {
+    console.log(JSON.stringify(data));
+  }, []);
+
   const playerLookup = useMemo(() => {
     const lookup: Record<string, Record<string, typeof players>> = {};
 
-    players.forEach(player => {
-      const pathKey = player.sectionPath.join('|');
+    players.forEach((player) => {
+      const pathKey = player.sectionPath.join("|");
       if (!lookup[pathKey]) lookup[pathKey] = {};
       if (!lookup[pathKey][player.assignmentId]) {
         lookup[pathKey][player.assignmentId] = [];
@@ -30,7 +34,7 @@ const Registry: React.FC<Props> = ({ data = dummyFactionRegistry }) => {
     path: string[] = []
   ): JSX.Element[] => {
     if (sectionIndex >= registry.sections.length) return [];
-
+    console.log(sectionIndex);
     const currentSection = registry.sections[sectionIndex];
     const assignments = registry.assignments[currentSection.id] || [];
 
@@ -45,27 +49,30 @@ const Registry: React.FC<Props> = ({ data = dummyFactionRegistry }) => {
 
     return currentKeys.map((key) => {
       const newPath = [...path, key];
-      const pathKey = newPath.join('|');
+      const pathKey = newPath.join("|");
 
       return (
         <div
           key={pathKey}
-          className={`m-2 min-w-[280px] flex-1 ${sectionIndex === 0
-            ? "rounded-2xl bg-white/5 backdrop-blur-lg p-6 shadow-md border border-white/10 hover:shadow-lg transition-shadow"
-            : ""
-            }`}
+          className={`m-2 min-w-[280px] flex-1 ${
+            sectionIndex === 0
+              ? "rounded-2xl bg-white/5 backdrop-blur-lg p-6 shadow-md border border-white/10 hover:shadow-lg transition-shadow"
+              : ""
+          }`}
         >
           <h3
-            className={`mb-3 font-bold text-primary text-center ${["text-3xl", "text-2xl", "text-xl", "text-lg", "text-base"][
-              sectionIndex
-            ] || "text-base"
-              }`}
+            className={`mb-3 font-bold text-primary text-center ${
+              ["text-3xl", "text-2xl", "text-xl", "text-lg", "text-base"][
+                sectionIndex
+              ] || "text-base"
+            }`}
           >
             {key}
           </h3>
 
           {assignments.map((assignment) => {
-            const assignedPlayers = playerLookup[pathKey]?.[assignment.id] || [];
+            const assignedPlayers =
+              playerLookup[pathKey]?.[assignment.id] || [];
             if (assignedPlayers.length === 0) return null;
 
             return (

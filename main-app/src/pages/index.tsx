@@ -13,7 +13,9 @@ interface HomePageProps {
   darkCard: boolean;
 }
 
-export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
+export const getServerSideProps: GetServerSideProps<
+  HomePageProps
+> = async () => {
   return {
     props: {
       orgLogoUrl: "/placeholder_logo.png",
@@ -21,7 +23,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
       vertical: true,
       allowRegistration: true,
       orgName: "Cyberpunk eSports",
-      darkCard: true
+      darkCard: true,
     },
   };
 };
@@ -37,11 +39,16 @@ export default function Login({
   const [isLogin, setIsLogin] = useState(true);
   const router = useRouter();
   const gradientStyle = {
-    backgroundImage: `linear-gradient(${vertical ? "to bottom" : "to right"}, ${backgroundGradient.join(", ")})`,
+    backgroundImage: `linear-gradient(${
+      vertical ? "to bottom" : "to right"
+    }, ${backgroundGradient.join(", ")})`,
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center" style={gradientStyle}>
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={gradientStyle}
+    >
       <div
         className={`p-8 rounded-xl shadow-xl w-full max-w-md ${
           darkCard ? "bg-zinc-900 text-zinc-100" : "bg-white/90 text-zinc-800"
@@ -55,7 +62,13 @@ export default function Login({
 
         {orgLogoUrl && (
           <div className="flex justify-center mb-4">
-            <Image src={orgLogoUrl} alt="Organization Logo" width={90} height={90} className="rounded" />
+            <Image
+              src={orgLogoUrl}
+              alt="Organization Logo"
+              width={90}
+              height={90}
+              className="rounded"
+            />
           </div>
         )}
 
@@ -64,14 +77,18 @@ export default function Login({
             type="email"
             placeholder="Email"
             className={`w-full p-2 rounded border ${
-              darkCard ? "bg-zinc-800 border-zinc-700 text-zinc-100 placeholder-zinc-400" : "border-zinc-300"
+              darkCard
+                ? "bg-zinc-800 border-zinc-700 text-zinc-100 placeholder-zinc-400"
+                : "border-zinc-300"
             }`}
           />
           <input
             type="password"
             placeholder="Password"
             className={`w-full p-2 rounded border ${
-              darkCard ? "bg-zinc-800 border-zinc-700 text-zinc-100 placeholder-zinc-400" : "border-zinc-300"
+              darkCard
+                ? "bg-zinc-800 border-zinc-700 text-zinc-100 placeholder-zinc-400"
+                : "border-zinc-300"
             }`}
           />
           {!isLogin && (
@@ -79,7 +96,9 @@ export default function Login({
               type="text"
               placeholder="Username"
               className={`w-full p-2 rounded border ${
-                darkCard ? "bg-zinc-800 border-zinc-700 text-zinc-100 placeholder-zinc-400" : "border-zinc-300"
+                darkCard
+                  ? "bg-zinc-800 border-zinc-700 text-zinc-100 placeholder-zinc-400"
+                  : "border-zinc-300"
               }`}
             />
           )}
@@ -91,7 +110,7 @@ export default function Login({
                 : "bg-zinc-800 text-white hover:bg-zinc-700"
             }`}
             onClick={() => {
-              router.replace('/home')
+              router.replace("/home");
             }}
           >
             {isLogin ? "Login" : "Register"}
@@ -106,7 +125,9 @@ export default function Login({
               }`}
               onClick={() => setIsLogin(!isLogin)}
             >
-              {isLogin ? "Don't have an account? Register" : "Already have an account? Log in"}
+              {isLogin
+                ? "Don't have an account? Register"
+                : "Already have an account? Log in"}
             </button>
           </div>
         )}
