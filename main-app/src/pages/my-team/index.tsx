@@ -1,11 +1,77 @@
+import { Registry } from "@/components/Registry";
+import { ScheduleTab } from "@/components/TeamPage/ScheduleTab";
+import { useUser } from "@/contexts/UserContext";
 import { dummyFactionRegistry, dummyUser } from "@/dummyData";
 import { FactionRegistryFull } from "@/models/DB/FactionRegistry.model";
 import { GetServerSideProps } from "next";
-import React from "react";
-import Registry from "../registry";
+import React, { useState } from "react";
 
 const MyTeamPage: React.FC<{ data: FactionRegistryFull }> = ({ data }) => {
-  return <Registry data={data} />;
+  const [activeTab, setActiveTab] = useState('roster');
+
+  const tabs = [
+    { id: 'roster', label: 'Players and Registry' },
+    { id: 'schedule', label: 'Match Schedule' },
+    { id: 'availability', label: 'Player Availability' },
+    { id: 'analytics', label: 'Analytics' },
+  ];
+
+  return (
+    <div className="min-h-screen p-6 bg-neutral-900 text-white">
+      <div className="max-w-[1200px] w-[90%] mx-auto">
+        {/* Team Header */}
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl font-bold text-accent mb-2">Team Dashboard</h1>
+          <p className="text-neutral-400">Manage your team's activities and performance</p>
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="flex border-b border-neutral-700 mb-6">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              className={`px-6 py-3 font-medium transition-colors ${activeTab === tab.id
+                  ? 'text-accent border-b-2 border-accent'
+                  : 'text-neutral-400 hover:text-white'
+                }`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab Content */}
+        <div className="bg-neutral-800/50 rounded-xl p-6 border border-neutral-700">
+          {activeTab === 'roster' && (
+            <div className="w-[400px] m-auto">
+              <Registry data={data} />
+            </div>
+          )}
+
+          {activeTab === 'schedule' && (
+            <div>
+              <h2 className="text-2xl font-semibold mb-6">Upcoming Matches</h2>
+              <ScheduleTab />
+              <div className="text-center py-12 text-neutral-500">
+                Match schedule component coming soon
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'availability' && (
+            <div>
+              <h2 className="text-2xl font-semibold mb-6">Player Availability</h2>
+              {/* Availability calendar would go here */}
+              <div className="text-center py-12 text-neutral-500">
+                Availability tracker coming soon
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default MyTeamPage;

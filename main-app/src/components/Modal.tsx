@@ -8,7 +8,7 @@ type ModalProps = {
   children: React.ReactNode;
 };
 
-const Modal: React.FC<ModalProps> = ({ onClose, title, children, overlayClickable = false, extraClassName = "" }) => {
+export const Modal: React.FC<ModalProps> = ({ onClose, title, children, overlayClickable = false, extraClassName = "" }) => {
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -34,5 +34,3 @@ const Modal: React.FC<ModalProps> = ({ onClose, title, children, overlayClickabl
     </div>
   );
 };
-
-export default Modal;
