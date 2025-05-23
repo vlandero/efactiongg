@@ -4,6 +4,36 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Modal } from '../Modal';
 
+const darkThemeStyles = {
+  calendar: {
+    backgroundColor: '#1a1a1a',
+    color: '#e5e7eb',
+  },
+  header: {
+    backgroundColor: '#262626',
+    color: '#e5e7eb',
+    borderColor: '#404040',
+  },
+  timeGutter: {
+    backgroundColor: '#262626',
+    color: '#a3a3a3',
+  },
+  event: {
+    color: '#ffffff',
+  },
+  today: {
+    backgroundColor: '#333333',
+  },
+  weekday: {
+    backgroundColor: '#262626',
+    color: '#e5e7eb',
+  },
+  timeSlot: {
+    backgroundColor: '#1a1a1a',
+    borderColor: '#333333',
+  },
+};
+
 const localizer = momentLocalizer(moment);
 
 type Event = {
@@ -66,30 +96,87 @@ export const ScheduleTab = () => {
       style: {
         backgroundColor,
         borderRadius: '4px',
-        opacity: 0.8,
+        opacity: 0.9,
         color: 'white',
         border: '0px',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
       },
     };
   };
 
   return (
     <div className="h-[calc(100vh-200px)]">
+      <style jsx global>{`
+      .rbc-row.rbc-time-header-cell {
+        display: flex;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .rbc-allday-cell {
+        display: flex;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .rbc-allday-cell > flex,
+      .rbc-time-header-cell > flex {
+        display: flex;
+        width: 100%;
+        flex: 1;
+      }
+
+      .rbc-allday-cell .rbc-row-bg,
+      .rbc-time-header-cell .rbc-row-bg {
+        width: 100%;
+        display: flex;
+      }
+
+      .rbc-allday-cell .rbc-row-bg .rbc-day-bg,
+      .rbc-time-header-cell .rbc-header {
+        flex: 1 0 0%;
+        min-width: 0;
+      }
+        .rbc-calendar {
+          background-color: ${darkThemeStyles.calendar.backgroundColor};
+          color: ${darkThemeStyles.calendar.color};
+        }
+        .rbc-header {
+          background-color: ${darkThemeStyles.header.backgroundColor};
+          color: ${darkThemeStyles.header.color};
+          border-color: ${darkThemeStyles.header.borderColor};
+        }
+        .rbc-time-gutter {
+          background-color: ${darkThemeStyles.timeGutter.backgroundColor};
+          color: ${darkThemeStyles.timeGutter.color};
+        }
+        .rbc-event {
+          color: ${darkThemeStyles.event.color};
+        }
+        .rbc-today {
+          background-color: ${darkThemeStyles.today.backgroundColor};
+        }
+        .rbc-month-view, .rbc-time-view {
+          border-color: #404040;
+        }
+        .rbc-time-header {
+          border-color: #404040;
+        }
+        .rbc-time-content {
+          border-color: #404040;
+        }
+        .rbc-day-slot .rbc-time-slot {
+          border-color: ${darkThemeStyles.timeSlot.borderColor};
+        }
+        .rbc-timeslot-group {
+          border-color: #404040;
+        }
+        .rbc-current-time-indicator {
+          background-color: #ef4444;
+          height: 2px;
+        }
+      `}</style>
       <div className="flex justify-between items-center mb-4">
-        <div className="flex space-x-2">
-          <button 
-            onClick={() => setView(Views.DAY)}
-            className="px-3 py-1 bg-neutral-700 rounded hover:bg-neutral-600"
-          >
-            Day
-          </button>
-          <button 
-            onClick={() => setView(Views.WEEK)}
-            className="px-3 py-1 bg-neutral-700 rounded hover:bg-neutral-600"
-          >
-            Week
-          </button>
-        </div>
         <button
           onClick={() => {
             setNewEvent({
@@ -123,7 +210,7 @@ export const ScheduleTab = () => {
         }}
       />
 
-      {showModal && <Modal onClose={() => setShowModal(false)} title="Add New Event">
+      {showModal && <Modal overlayClickable onClose={() => setShowModal(false)} title="Add New Event">
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">Event Title</label>

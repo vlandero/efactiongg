@@ -5,7 +5,8 @@
 h1,
 h2,
 h3,
-h4 {
+h4,
+p {
   font-family: "Rubik", sans-serif;
 }
 
@@ -13,115 +14,10 @@ button {
   font-family: "Rubik", sans-serif;
 }
 
-.bg-primary {
-  background-color: #1c1c24;
-}
-
-.text-light {
-  color: #ededed;
-}
-
-.input-medium {
-  border-radius: 0.25rem;
-  background-color: #3f3f46;
-  color: #f8fafc;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
-
-.input-dark {
-  padding: 0.75rem;
-  border-radius: 0.375rem;
-  background-color: #27272a;
-  color: #ffffff;
-  outline: none;
-}
-
-.custom-input::placeholder {
-  color: #71717a;
-}
-
-.custom-input:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px #3b82f6;
-}
-
-.reject-color {
-  color: #f87171;
-}
-
-.reject-color:hover {
-  color: #dc2626;
-}
-
-.action-text {
-  color: #60a5fa;
-}
-
-.action-text:hover {
-  text-decoration: underline;
-}
-
-.crimson-gradient {
-  background: #2b0000;
-  background: -webkit-linear-gradient(to right, #800000, #2b0000);
-  background: linear-gradient(to right, #800000, #2b0000);
-}
-
-.dark-inferno {
-  background: #1a0000;
-  background: -webkit-linear-gradient(to right, #e60000, #990000);
-  background: linear-gradient(to right, #e60000, #990000);
-}
-
 .primary-gradient {
   background: #1c1c24;
   background: -webkit-linear-gradient(to right, #1c1c24, #33323d);
   background: linear-gradient(to right, #1c1c24, #0b1c1d);
-}
-
-.button-primary {
-  background-color: #17635c;
-}
-
-.bg-red-500 {
-  background-color: #ff3b3b;
-}
-
-.input {
-  background-color: rgb(189, 188, 188);
-}
-
-.dark-input {
-  background-color: oklch(0.37 0.01 285.81 / 1);
-}
-
-@keyframes shake {
-  0% {
-    transform: translateX(0);
-  }
-
-  25% {
-    transform: translateX(-5px);
-  }
-
-  50% {
-    transform: translateX(5px);
-  }
-
-  75% {
-    transform: translateX(-5px);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
-}
-
-.animate-shake {
-  animation: shake 0.5s;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -146,7 +42,7 @@ button {
   scrollbar-color: #19413d transparent;
 }
 
-[role="tree"] > div {
+[role="tree"]>div {
   height: inherit !important;
 }
 

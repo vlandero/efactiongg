@@ -1,12 +1,11 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { trpc } from "@/_trpc/client";
 import { Game, Team } from "@/models/Game.model";
 import { getChampionIconUrl, parseGame } from "@/utils/game";
 import { GetServerSideProps } from "next";
 import Select from "react-select";
-import Modal from "@/components/Modal";
+import { Modal } from "@/components/Modal";
 
 function GameCard({
   game,
@@ -39,9 +38,8 @@ function GameCard({
 function TeamBlock({ team, color }: { team: Team; color: "blue" | "red" }) {
   return (
     <div
-      className={`p-4 rounded-lg ${
-        color === "blue" ? "bg-blue-900" : "bg-red-900"
-      }`}
+      className={`p-4 rounded-lg ${color === "blue" ? "bg-blue-900" : "bg-red-900"
+        }`}
     >
       <h3 className="text-lg font-bold text-white mb-2">
         {color.toUpperCase()} Team
@@ -334,17 +332,15 @@ export default function AnalyticsPage({
         <div className="flex gap-4 mt-4">
           <button
             onClick={() => setSelectedTab("matches")}
-            className={`px-4 py-2 rounded ${
-              selectedTab === "matches" ? "bg-blue-700" : "bg-neutral-700"
-            }`}
+            className={`px-4 py-2 rounded ${selectedTab === "matches" ? "bg-blue-700" : "bg-neutral-700"
+              }`}
           >
             Matches
           </button>
           <button
             onClick={() => setSelectedTab("statistics")}
-            className={`px-4 py-2 rounded ${
-              selectedTab === "statistics" ? "bg-blue-700" : "bg-neutral-700"
-            }`}
+            className={`px-4 py-2 rounded ${selectedTab === "statistics" ? "bg-blue-700" : "bg-neutral-700"
+              }`}
           >
             Statistics
           </button>
