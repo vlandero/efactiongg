@@ -50,6 +50,80 @@ button {
   height: inherit !important;
 }
 
+.rbc-row.rbc-time-header-cell {
+  display: flex !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
 .rbc-allday-cell {
-  display: flex;
+  display: none !important;
+}
+
+.rbc-time-header {
+  margin-right: 0 !important;
+  border-color: #404040 !important;
+}
+
+.rbc-time-content {
+  scrollbar-width: none !important;
+}
+
+.rbc-time-content {
+  margin: 0 !important;
+}
+
+.rbc-header {
+  border-bottom-width: 0px !important;
+  background-color: #262626 !important;
+  color: #b1b2b3 !important;
+  border-color: #404040 !important;
+}
+
+.rbc-today {
+  background-color: #333333 !important;
+}
+
+.rbc-timeslot-group {
+  border-color: #404040 !important;
+}
+
+.rbc-current-time-indicator {
+  background-color: #ef4444 !important;
+  height: 2px !important;
+}
+
+.rbc-time-gutter {
+  background-color: #262626 !important;
+  color: #a3a3a3 !important;
+}
+
+.rbc-event {
+  color: white !important;
+}
+
+.rbc-month-view,
+.rbc-time-view {
+  border-color: #404040 !important;
+}
+
+.rbc-time-header {
+  border-color: #404040 !important;
+}
+
+.rbc-time-content {
+  border-color: #404040 !important;
+}
+
+.rbc-time-content > * + * > * {
+  border-left-color: #585858 !important;
+}
+
+.rbc-day-slot .rbc-time-slot {
+  border-color: #474747 !important;
+}
+
+.rbc-calendar {
+  background-color: #1a1a1a !important;
+  color: #e5e7eb !important;
 }

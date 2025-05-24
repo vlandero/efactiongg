@@ -47,12 +47,9 @@ const MyTeamPage: React.FC<{ data: FactionRegistryFull }> = ({ data }) => {
           )}
 
           {activeTab === 'schedule' && (
-            <div>
+            <div className="pb-20">
               <h2 className="text-2xl font-semibold mb-6">Schedule</h2>
               <ScheduleTab />
-              <div className="text-center py-12 text-neutral-500">
-                Match schedule component coming soon
-              </div>
             </div>
           )}
 
