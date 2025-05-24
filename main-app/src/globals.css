@@ -49,3 +49,7 @@ button {
 [role="tree"] {
   height: inherit !important;
 }
+
+.rbc-allday-cell {
+  display: flex;
+}

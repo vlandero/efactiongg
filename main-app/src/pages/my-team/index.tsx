@@ -11,7 +11,7 @@ const MyTeamPage: React.FC<{ data: FactionRegistryFull }> = ({ data }) => {
 
   const tabs = [
     { id: 'roster', label: 'Players and Registry' },
-    { id: 'schedule', label: 'Match Schedule' },
+    { id: 'schedule', label: 'Schedule' },
     { id: 'availability', label: 'Player Availability' },
     { id: 'analytics', label: 'Analytics' },
   ];
@@ -19,13 +19,11 @@ const MyTeamPage: React.FC<{ data: FactionRegistryFull }> = ({ data }) => {
   return (
     <div className="min-h-screen p-6 bg-neutral-900 text-white">
       <div className="max-w-[1200px] w-[90%] mx-auto">
-        {/* Team Header */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-accent mb-2">Team Dashboard</h1>
           <p className="text-neutral-400">Manage your team's activities and performance</p>
         </div>
 
-        {/* Tab Navigation */}
         <div className="flex border-b border-neutral-700 mb-6">
           {tabs.map(tab => (
             <button
@@ -41,7 +39,6 @@ const MyTeamPage: React.FC<{ data: FactionRegistryFull }> = ({ data }) => {
           ))}
         </div>
 
-        {/* Tab Content */}
         <div className="bg-neutral-800/50 rounded-xl p-6 border border-neutral-700">
           {activeTab === 'roster' && (
             <div className="w-[400px] m-auto">
@@ -51,7 +48,7 @@ const MyTeamPage: React.FC<{ data: FactionRegistryFull }> = ({ data }) => {
 
           {activeTab === 'schedule' && (
             <div>
-              <h2 className="text-2xl font-semibold mb-6">Upcoming Matches</h2>
+              <h2 className="text-2xl font-semibold mb-6">Schedule</h2>
               <ScheduleTab />
               <div className="text-center py-12 text-neutral-500">
                 Match schedule component coming soon
@@ -62,9 +59,17 @@ const MyTeamPage: React.FC<{ data: FactionRegistryFull }> = ({ data }) => {
           {activeTab === 'availability' && (
             <div>
               <h2 className="text-2xl font-semibold mb-6">Player Availability</h2>
-              {/* Availability calendar would go here */}
               <div className="text-center py-12 text-neutral-500">
                 Availability tracker coming soon
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'analytics' && (
+            <div>
+              <h2 className="text-2xl font-semibold mb-6">Team Analytics</h2>
+              <div className="text-center py-12 text-neutral-500">
+                Match analytics coming soon
               </div>
             </div>
           )}

@@ -60,7 +60,6 @@ export const ScheduleTab = () => {
   });
   const [view, setView] = useState<View>(Views.WEEK);
 
-  // Mock players data - replace with your actual data
   const players = [
     { id: '1', name: 'Player 1' },
     { id: '2', name: 'Player 2' },
@@ -106,7 +105,7 @@ export const ScheduleTab = () => {
 
   return (
     <div className="h-[calc(100vh-200px)]">
-      <style jsx global>{`
+      {/* <style jsx global>{`
       .rbc-row.rbc-time-header-cell {
         display: flex;
         flex: 1;
@@ -175,7 +174,7 @@ export const ScheduleTab = () => {
           background-color: #ef4444;
           height: 2px;
         }
-      `}</style>
+      `}</style> */}
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={() => {

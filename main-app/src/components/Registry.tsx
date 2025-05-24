@@ -51,7 +51,7 @@ export const Registry: React.FC<Props> = ({ data = dummyFactionRegistry }) => {
           key={pathKey}
           className={`flex-1 ${
             sectionIndex === 0
-              ? "rounded-2xl bg-white/2 backdrop-blur-lg p-6 shadow-md border border-white/10 hover:shadow-lg transition-shadow"
+              ? "rounded-2xl bg-white/2 backdrop-blur-lg p-6 shadow-md border border-white/10 hover:shadow-lg transition-shadow min-w-[300px]"
               : ""
           }`}
         >
@@ -73,7 +73,7 @@ export const Registry: React.FC<Props> = ({ data = dummyFactionRegistry }) => {
             return (
               <div
                 key={assignment.id}
-                className="mb-4 rounded-lg bg-zinc-800 p-3 shadow-sm border border-white/10 max-w-[300px] m-auto"
+                className="mb-4 rounded-lg bg-zinc-800 p-3 shadow-sm border border-white/10 max-w-[300px] min-w-[150px] m-auto"
               >
                 <p className="text-lg font-bold text-accent mb-2 text-center">
                   {assignment.name}
@@ -82,7 +82,7 @@ export const Registry: React.FC<Props> = ({ data = dummyFactionRegistry }) => {
                   {assignedPlayers.map((p) => (
                     <li
                       key={p.user.id}
-                      className="text-sm text-white/90 bg-zinc-700/50 py-1 px-2 rounded-md w-[50%] m-auto cursor-pointer transition-all duration-300 hover:bg-white/10 hover:text-accent hover:scale-105"
+                      className="text-sm text-white/90 bg-zinc-700/50 py-1 px-2 rounded-md min-w-[50%] m-auto cursor-pointer transition-all duration-300 hover:bg-white/10 hover:text-accent hover:scale-105"
                     >
                       {p.user.username}
                     </li>
@@ -92,7 +92,7 @@ export const Registry: React.FC<Props> = ({ data = dummyFactionRegistry }) => {
             );
           })}
 
-          <div className="flex flex-wrap gap-4 mt-4">
+          <div className="flex flex-wrap gap-9 mt-4 md:gap-4">
             {renderSectionLevel(sectionIndex + 1, newPath)}
           </div>
         </div>
